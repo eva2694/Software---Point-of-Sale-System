@@ -4,7 +4,7 @@
 3. Eva Urankar
 
 ## Homework 1:
-<When you finish your homework, add a link pointing to the solution here (for example, a link to a page on the wiki)> 
+Submission link: [Requirements engineering](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/wiki/HW-1%20Requirements%20engineering).
 
 ## Homework 2:
 <Links to the solution>

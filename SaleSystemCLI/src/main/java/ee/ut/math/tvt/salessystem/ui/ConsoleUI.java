@@ -74,6 +74,12 @@ public class ConsoleUI {
         System.out.println("-------------------------");
     }
 
+    private void ShowTeam() {
+        System.out.println("-------------------------");
+        System.out.println("Team name:     KAKTUS");
+        System.out.println("Team contact:  kaktus@ut.ee");
+        System.out.println("Team members:  Jonathan Degouve, Victor Chevreau, Eva Urankar");
+        System.out.println("-------------------------");
     private void printUsage() {
         System.out.println("-------------------------");
         System.out.println("Usage:");
@@ -83,6 +89,7 @@ public class ConsoleUI {
         System.out.println("a IDX NR \tAdd NR of stock item with index IDX to the cart");
         System.out.println("p\t\tPurchase the shopping cart");
         System.out.println("r\t\tReset the shopping cart");
+        System.out.println("t\t\tShow team information");
         System.out.println("-------------------------");
     }
 
@@ -93,6 +100,8 @@ public class ConsoleUI {
             printUsage();
         else if (c[0].equals("q"))
             System.exit(0);
+        else if (c[0].equals("t"))
+            ShowTeam();
         else if (c[0].equals("w"))
             showStock();
         else if (c[0].equals("c"))

@@ -5,6 +5,7 @@ import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.ui.controllers.PurchaseController;
 import ee.ut.math.tvt.salessystem.ui.controllers.StockController;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
+import ee.ut.math.tvt.salessystem.ui.controllers.TeamController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,6 +40,7 @@ public class SalesSystemUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         log.info("javafx version: " + System.getProperty("javafx.runtime.version"));
 
         Tab purchaseTab = new Tab();
@@ -59,6 +61,8 @@ public class SalesSystemUI extends Application {
         Tab teamTab = new Tab();
         teamTab.setText("Team");
         teamTab.setClosable(false);
+        teamTab.setContent(loadControls("TeamTab.fxml", new TeamController()));
+
         Group root = new Group();
         Scene scene = new Scene(root, 600, 500, Color.WHITE);
         //scene.getStylesheets().add(getClass().getResource("DefaultTheme.css").toExternalForm());
@@ -66,7 +70,7 @@ public class SalesSystemUI extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.prefHeightProperty().bind(scene.heightProperty());
         borderPane.prefWidthProperty().bind(scene.widthProperty());
-        borderPane.setCenter(new TabPane(purchaseTab, stockTab, historyTab));
+        borderPane.setCenter(new TabPane(purchaseTab, stockTab, historyTab, teamTab));
         root.getChildren().add(borderPane);
 
         primaryStage.setTitle("Sales system");
@@ -74,6 +78,7 @@ public class SalesSystemUI extends Application {
         primaryStage.show();
 
         log.info("Salesystem GUI started");
+        scene.getStylesheets().add(getClass().getResource("DefaultTheme.css").toExternalForm()); // add the style
     }
 
     private Node loadControls(String fxml, Initializable controller) throws IOException {

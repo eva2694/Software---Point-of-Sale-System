@@ -80,6 +80,8 @@ public class ConsoleUI {
         System.out.println("Team contact:  kaktus@ut.ee");
         System.out.println("Team members:  Jonathan Degouve, Victor Chevreau, Eva Urankar");
         System.out.println("-------------------------");
+    }
+
     private void printUsage() {
         System.out.println("-------------------------");
         System.out.println("Usage:");

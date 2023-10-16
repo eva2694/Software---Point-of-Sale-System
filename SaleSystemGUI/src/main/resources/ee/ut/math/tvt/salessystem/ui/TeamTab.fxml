@@ -8,6 +8,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.BorderPane?>
 
+
 <TitledPane alignment="CENTER" animated="false" collapsible="false" text="Team info" xmlns="http://javafx.com/javafx/8.0.102">
     <content>
         <BorderPane>

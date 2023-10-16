@@ -11,8 +11,8 @@ Interview recording link : https://tartuulikool-my.sharepoint.com/:u:/g/personal
 Submission link: [Requirements Specification, Modeling, Planning](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/wiki/HW-2%20Requirements%20Specification,%20Modeling,%20Planning).
 
 ## Homework 3:
-Git error
-
+<Links to the solution>
+Merge conflict
 ## Homework 4:
 <Links to the solution>
 

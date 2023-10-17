@@ -12,6 +12,7 @@ Submission link: [Requirements Specification, Modeling, Planning](https://bitbuc
 
 ## Homework 3:
 <Links to the solution>
+merge conflict
 
 Try to make a merge conflict
 ## Homework 4:

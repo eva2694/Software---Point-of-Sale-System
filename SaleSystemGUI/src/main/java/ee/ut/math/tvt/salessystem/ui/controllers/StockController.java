@@ -36,6 +36,11 @@ public class StockController implements Initializable {
         refreshStockItems();
     }
 
+    // adding a function to add items to the warehouse
+    @FXML
+    public void addItemEventHandler() {
+        // Implement the functionality for adding a product here
+    }
     private void refreshStockItems() {
         warehouseTableView.setItems(FXCollections.observableList(dao.findStockItems()));
         warehouseTableView.refresh();

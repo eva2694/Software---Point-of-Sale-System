@@ -6,6 +6,7 @@ import ee.ut.math.tvt.salessystem.ui.controllers.PurchaseController;
 import ee.ut.math.tvt.salessystem.ui.controllers.StockController;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
 import ee.ut.math.tvt.salessystem.ui.controllers.TeamController;
+import ee.ut.math.tvt.salessystem.ui.controllers.HistoryController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -56,7 +57,7 @@ public class SalesSystemUI extends Application {
         Tab historyTab = new Tab();
         historyTab.setText("History");
         historyTab.setClosable(false);
-        //historyTab.setContent(loadControls("HistoryTab.fxml", new HistoryController()));
+        historyTab.setContent(loadControls("HistoryTab.fxml", new HistoryController()));
 
         Tab teamTab = new Tab();
         teamTab.setText("Team");

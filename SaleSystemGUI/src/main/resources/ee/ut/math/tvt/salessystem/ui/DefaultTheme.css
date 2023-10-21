@@ -34,7 +34,9 @@
 
 .background_style{
 	 /*-fx-background-color: b_color;*/
-	  -fx-background-color: linear-gradient(from 25% 100% to 100% 25%, b_color, main_text_color);
+    -fx-background-color: linear-gradient(from 25% 100% to 100% 25%, b_color, main_text_color);
+    /*ADDING NEW STYLE*/
+    -fx-padding: 10;
 }
 
 .background_fills{
@@ -80,7 +82,7 @@
  */
  
  .table-view {
-    -fx-base: red;
+    -fx-base: #ff6a00;
     -fx-control-inner-background: control_color;
     -fx-background-color: sb_color;
     -fx-table-cell-border-color: sb_color;
@@ -841,5 +843,7 @@
     -fx-opacity: .4;
      
 }
-
-
+/* NEW STYLES: */
+Label {
+    -fx-padding: 0 10 0 0;
+}

@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +22,15 @@ public class StockController implements Initializable {
     private Button addItem;
     @FXML
     private TableView<StockItem> warehouseTableView;
+
+    @FXML
+    private TextField barCodeField;
+    @FXML
+    private TextField quantityField;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextField priceField;
 
     public StockController(SalesSystemDAO dao) {
         this.dao = dao;
@@ -40,6 +51,28 @@ public class StockController implements Initializable {
     @FXML
     public void addItemEventHandler() {
         // Implement the functionality for adding a product here
+
+        // CREATE NEW STOCKITEM
+        StockItem newStockItem = new StockItem();
+        // get data from form
+        Long barCode = Long.parseLong(quantityField.getText());
+        int amount = Integer.parseInt(quantityField.getText());
+        String name = nameField.getText();
+        double price = Double.parseDouble(priceField.getText());
+
+        // insert data into newStockItem
+        newStockItem.setId(barCode);
+        newStockItem.setQuantity(amount);
+        newStockItem.setName(name);
+        newStockItem.setPrice(price);
+
+        // save into sales system dao
+        dao.saveStockItem(newStockItem);
+
+        barCodeField.clear();
+        quantityField.clear();
+        nameField.clear();
+        priceField.clear();
     }
     private void refreshStockItems() {
         warehouseTableView.setItems(FXCollections.observableList(dao.findStockItems()));

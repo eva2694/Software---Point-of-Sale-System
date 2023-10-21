@@ -18,8 +18,9 @@
 <SplitPane dividerPositions="0.35" orientation="VERTICAL" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <items>
        <AnchorPane prefHeight="200.0" styleClass="background_style" SplitPane.resizableWithParent="false">
-         <AnchorPane layoutX="10.399999618530273" layoutY="44.79999923706055" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
-            <children>
+           <children>
+               <AnchorPane layoutX="10.399999618530273" layoutY="44.79999923706055" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
+                   <children>
                    <GridPane prefHeight="185.0" prefWidth="323.0" styleClass="sub_background">
                        <columnConstraints>
                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="10000.0" minWidth="10.0" prefWidth="50.0" />
@@ -75,13 +76,14 @@
                            <TextField fx:id="priceField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                        </children>
                    </GridPane>
-            </children>
-         </AnchorPane>
+                   </children>
+               </AnchorPane>
+           </children>
        </AnchorPane>
       <TitledPane alignment="CENTER" animated="false" collapsible="false" text="Warehouse status">
         <BorderPane>
           <center>
-            <TableView fx:id="warehouseTableView" styleClass="blue_style" BorderPane.alignment="CENTER">
+            <TableView fx:id="warehouseTableView" styleClass="blue_style" BorderPane.alignment="CENTER" >
               <columns>
                 <TableColumn text="Id">
                   <cellValueFactory>

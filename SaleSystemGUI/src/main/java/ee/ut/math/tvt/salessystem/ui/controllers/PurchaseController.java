@@ -11,10 +11,13 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,7 +45,7 @@ public class PurchaseController implements Initializable {
     @FXML
     private TextField quantityField;
     @FXML
-    private TextField nameField;
+    private ChoiceBox<String> nameChoiceBox;
     @FXML
     private TextField priceField;
     @FXML
@@ -70,6 +73,9 @@ public class PurchaseController implements Initializable {
                 }
             }
         });
+
+        List<String> nameList = dao.NameList();
+        nameChoiceBox.getItems().addAll(nameList);
     }
 
     /** Event handler for the <code>new purchase</code> event. */
@@ -135,7 +141,7 @@ public class PurchaseController implements Initializable {
     private void fillInputsBySelectedStockItem() {
         StockItem stockItem = getStockItemByBarcode();
         if (stockItem != null) {
-            nameField.setText(stockItem.getName());
+            nameChoiceBox.setValue(stockItem.getName());
             priceField.setText(String.valueOf(stockItem.getPrice()));
         } else {
             resetProductField();
@@ -179,7 +185,7 @@ public class PurchaseController implements Initializable {
         this.addItemButton.setDisable(disable);
         this.barCodeField.setDisable(disable);
         this.quantityField.setDisable(disable);
-        this.nameField.setDisable(disable);
+        this.nameChoiceBox.setDisable(disable);
         this.priceField.setDisable(disable);
     }
 
@@ -189,7 +195,15 @@ public class PurchaseController implements Initializable {
     private void resetProductField() {
         barCodeField.setText("");
         quantityField.setText("1");
-        nameField.setText("");
+        //nameField.setText("");
         priceField.setText("");
+    }
+
+
+    public void changeNameChoiceBox() {
+        String selectedName = nameChoiceBox.getValue();
+        StockItem item = dao.findStockItem_Name(selectedName);
+        barCodeField.setText(String.valueOf(item.getId()));
+        priceField.setText(String.valueOf(item.getPrice()));
     }
 }

@@ -58,6 +58,26 @@
 	-fx-background-radius: 0;
 }
 
+.choice-box {
+    -fx-background-color: control_color;
+    -fx-background-radius: 5px;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+}
+
+.choice-box:focused {
+    -fx-background-color: b_color;
+    -fx-background-radius: 5px;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: control_color;
+}
+
+.choice-box .menu-item:hover {
+    -fx-background-color: b_color;
+}
 /*
  * BorderPane
  */

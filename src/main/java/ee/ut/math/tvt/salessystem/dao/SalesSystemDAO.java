@@ -43,4 +43,8 @@ public interface SalesSystemDAO {
     void rollbackTransaction();
 
     void commitTransaction();
+
+    List<String> NameList();
+
+    StockItem findStockItem_Name(String name);
 }

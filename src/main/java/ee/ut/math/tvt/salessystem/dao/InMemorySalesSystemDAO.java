@@ -35,6 +35,22 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         return null;
     }
 
+    public List<String> NameList() {
+        List<String> names = new ArrayList<>();
+        for (StockItem item : stockItemList) {
+            names.add(item.getName());
+        }
+        return names;
+    }
+
+    public StockItem findStockItem_Name(String name) {
+        for (StockItem item : stockItemList) {
+            if (item.getName() == name)
+                return item;
+        }
+        return null;
+    }
+
     @Override
     public void saveSoldItem(SoldItem item) {
         soldItemList.add(item);

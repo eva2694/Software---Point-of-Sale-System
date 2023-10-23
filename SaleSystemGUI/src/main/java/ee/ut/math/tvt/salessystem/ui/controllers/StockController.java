@@ -3,6 +3,8 @@ package ee.ut.math.tvt.salessystem.ui.controllers;
 import com.sun.javafx.collections.ObservableListWrapper;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,6 +42,14 @@ public class StockController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         refreshStockItems();
         // TODO refresh view after adding new items
+        this.barCodeField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                if (!newPropertyValue) {
+                    fillInputsBySelectedStockItem();
+                }
+            }
+        });
     }
 
     @FXML
@@ -96,5 +106,32 @@ public class StockController implements Initializable {
     private void refreshStockItems() {
         warehouseTableView.setItems(FXCollections.observableList(dao.findStockItems()));
         warehouseTableView.refresh();
+    }
+
+
+    private void fillInputsBySelectedStockItem() {
+        StockItem stockItem = getStockItemByBarcode();
+        if (stockItem != null) {
+            nameField.setText(stockItem.getName());
+            priceField.setText(String.valueOf(stockItem.getPrice()));
+        } else {
+            resetProductField();
+        }
+    }
+
+    private StockItem getStockItemByBarcode() {
+        try {
+            long code = Long.parseLong(barCodeField.getText());
+            return dao.findStockItem(code);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private void resetProductField() {
+        barCodeField.setText("");
+        quantityField.setText("1");
+        nameField.setText("");
+        priceField.setText("");
     }
 }

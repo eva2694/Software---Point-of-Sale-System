@@ -51,23 +51,42 @@ public class StockController implements Initializable {
     @FXML
     public void addItemEventHandler() {
         // Implement the functionality for adding a product here
+        // Look if product is already in database to avoid creating duplicate
 
-        // CREATE NEW STOCKITEM
-        StockItem newStockItem = new StockItem();
         // get data from form
-        Long barCode = Long.parseLong(quantityField.getText());
+        Long barCode = Long.parseLong(barCodeField.getText());
         int amount = Integer.parseInt(quantityField.getText());
         String name = nameField.getText();
         double price = Double.parseDouble(priceField.getText());
 
-        // insert data into newStockItem
-        newStockItem.setId(barCode);
-        newStockItem.setQuantity(amount);
-        newStockItem.setName(name);
-        newStockItem.setPrice(price);
+        // CREATE NEW STOCKITEM
+        StockItem newStockItem = new StockItem();
 
-        // save into sales system dao
-        dao.saveStockItem(newStockItem);
+        if(dao.findStockItem(barCode) == null) {
+
+            // insert data into newStockItem
+            newStockItem.setId(barCode);
+            newStockItem.setQuantity(amount);
+            newStockItem.setName(name);
+            newStockItem.setPrice(price);
+
+            // save into sales system dao
+            dao.saveStockItem(newStockItem);
+
+        }
+        else {
+            // insert data into newStockItem
+            newStockItem.setId(barCode);
+            newStockItem.setQuantity(amount + dao.findStockItem(barCode).getQuantity());
+            newStockItem.setName(dao.findStockItem(barCode).getName());
+            newStockItem.setPrice(dao.findStockItem(barCode).getPrice());
+
+            // remove existing item
+            dao.removeStockItem(dao.findStockItem(barCode));
+
+            // save updated version of the item into sales system dao
+            dao.saveStockItem(newStockItem);
+        }
 
         barCodeField.clear();
         quantityField.clear();

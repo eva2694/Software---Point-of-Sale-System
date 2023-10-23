@@ -46,6 +46,16 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
+    public void removeStockItem(StockItem stockItem) {
+        for (StockItem item : stockItemList) {
+            if (item.getId().equals(stockItem.getId()))
+            {
+                stockItemList.remove(stockItem);
+            }
+        }
+    }
+
+    @Override
     public void beginTransaction() {
     }
 

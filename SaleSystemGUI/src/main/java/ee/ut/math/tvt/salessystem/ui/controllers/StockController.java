@@ -115,7 +115,12 @@ public class StockController implements Initializable {
             nameField.setText(stockItem.getName());
             priceField.setText(String.valueOf(stockItem.getPrice()));
         } else {
-            resetProductField();
+            String barcodeText = barCodeField.getText();
+            try {
+                int code = Integer.parseInt(barcodeText);
+            } catch (NumberFormatException e) {
+                resetProductField();
+            }
         }
     }
 

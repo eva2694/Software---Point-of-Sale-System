@@ -37,17 +37,17 @@ public class TeamController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Properties properties = new Properties();
 
-        try (InputStream input = new FileInputStream("app/src/main/resources/application.properties")) {
+        try (InputStream input = new FileInputStream("../app/src/main/resources/application.properties")) {
             properties.load(input);
             name = properties.getProperty("team.name");
             teamMail = properties.getProperty("team.contact");
             membersName = properties.getProperty("team.members");
-            //image = new Image("app/src/main/resources/874928.png");
+            image = new Image(properties.getProperty("team.logo.path"));
 
             teamName.setText(name);
             teamContact.setText(teamMail);
             teamMembers.setText(membersName);
-            //teamLogo.setImage(image);
+            teamLogo.setImage(image);
         } catch (Exception e) {
             e.printStackTrace();
         }

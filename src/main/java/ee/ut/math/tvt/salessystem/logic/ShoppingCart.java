@@ -2,13 +2,15 @@ package ee.ut.math.tvt.salessystem.logic;
 
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart {
+
+    //private static final Logger log = LogManager.getLogger(ShoppingCart.class);
 
     private final SalesSystemDAO dao;
     private final List<SoldItem> items = new ArrayList<>();

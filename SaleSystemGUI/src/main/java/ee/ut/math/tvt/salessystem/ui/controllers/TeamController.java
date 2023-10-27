@@ -55,9 +55,9 @@ public class TeamController implements Initializable {
             teamLogo.setImage(image);
         } catch (Exception e) {
             e.printStackTrace();
-            log.info("Display of informations failed");
+            log.error("Error loading team information", e);
         }
-
+        log.debug("TeamController initialization complete.");
 
     }
 }

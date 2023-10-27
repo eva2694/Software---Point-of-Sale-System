@@ -27,7 +27,7 @@ public class ShoppingCart {
         // TODO verify that warehouse items' quantity remains at least zero or throw an exception
 
         items.add(item);
-        //log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
+        log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
     }
 
     public List<SoldItem> getAll() {
@@ -35,6 +35,7 @@ public class ShoppingCart {
     }
 
     public void cancelCurrentPurchase() {
+        log.debug("Current purchase canceled. Clearing the shopping cart.");
         items.clear();
     }
 
@@ -44,6 +45,7 @@ public class ShoppingCart {
         // note the use of transactions. InMemorySalesSystemDAO ignores transactions
         // but when you start using hibernate in lab5, then it will become relevant.
         // what is a transaction? https://stackoverflow.com/q/974596
+        log.debug("Submitting the current purchase.");
         dao.beginTransaction();
         try {
             for (SoldItem item : items) {
@@ -51,7 +53,9 @@ public class ShoppingCart {
             }
             dao.commitTransaction();
             items.clear();
+            log.debug("Transaction committed. Shopping cart cleared.");
         } catch (Exception e) {
+            log.error("Error submitting the purchase: " + e.getMessage());
             dao.rollbackTransaction();
             throw e;
         }

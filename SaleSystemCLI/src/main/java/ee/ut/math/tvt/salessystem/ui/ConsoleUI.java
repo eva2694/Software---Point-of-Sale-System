@@ -53,6 +53,7 @@ public class ConsoleUI {
 
     private void showStock() {
         List<StockItem> stockItems = dao.findStockItems();
+        log.info("Displaying stock items");
         System.out.println("-------------------------");
         for (StockItem si : stockItems) {
             System.out.println(si.getId() + " " + si.getName() + " " + si.getPrice() + "Euro (" + si.getQuantity() + " items)");
@@ -64,6 +65,7 @@ public class ConsoleUI {
     }
 
     private void showCart() {
+        log.info("Displaying shopping cart");
         System.out.println("-------------------------");
         for (SoldItem si : cart.getAll()) {
             System.out.println(si.getName() + " " + si.getPrice() + "Euro (" + si.getQuantity() + " items)");
@@ -75,6 +77,7 @@ public class ConsoleUI {
     }
 
     private void ShowTeam() {
+        log.info("Displaying team information");
         System.out.println("-------------------------");
         System.out.println("Team name:     KAKTUS");
         System.out.println("Team contact:  kaktus@ut.ee");
@@ -98,11 +101,13 @@ public class ConsoleUI {
     private void processCommand(String command) {
         String[] c = command.split(" ");
 
-        if (c[0].equals("h"))
+        if (c[0].equals("h")) {
+            log.info("Displaying usage information");
             printUsage();
-        else if (c[0].equals("q"))
+        }else if (c[0].equals("q")) {
+            log.info("Exiting the application");
             System.exit(0);
-        else if (c[0].equals("t"))
+        }else if (c[0].equals("t"))
             ShowTeam();
         else if (c[0].equals("w"))
             showStock();
@@ -120,13 +125,13 @@ public class ConsoleUI {
                 if (item != null) {
                     cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity())));
                 } else {
-                    System.out.println("no stock item with id " + idx);
+                    log.error("no stock item with id " + idx);
                 }
             } catch (SalesSystemException | NoSuchElementException e) {
                 log.error(e.getMessage(), e);
             }
         } else {
-            System.out.println("unknown command");
+            log.info("unknown command");
         }
     }
 

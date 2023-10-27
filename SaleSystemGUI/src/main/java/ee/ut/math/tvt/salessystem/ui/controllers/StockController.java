@@ -77,28 +77,43 @@ public class StockController implements Initializable {
 
         if(dao.findStockItem(barCode) == null) {
 
-            // insert data into newStockItem
-            newStockItem.setId(barCode);
-            newStockItem.setQuantity(amount);
-            newStockItem.setName(name);
-            newStockItem.setPrice(price);
+            try {
+                // insert data into newStockItem
+                newStockItem.setId(barCode);
+                newStockItem.setQuantity(amount);
+                newStockItem.setName(name);
+                newStockItem.setPrice(price);
 
-            // save into sales system dao
-            dao.saveStockItem(newStockItem);
+                // save into sales system dao
+                dao.saveStockItem(newStockItem);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+                log.info("Display of informations failed");
+                log.debug("New item info => name:" + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
+                log.debug("List of items in warehouse:" + dao.findStockItems());
+            }
 
         }
         else {
-            // insert data into newStockItem
-            newStockItem.setId(barCode);
-            newStockItem.setQuantity(amount + dao.findStockItem(barCode).getQuantity());
-            newStockItem.setName(dao.findStockItem(barCode).getName());
-            newStockItem.setPrice(dao.findStockItem(barCode).getPrice());
+            try {
+                // insert data into newStockItem
+                newStockItem.setId(barCode);
+                newStockItem.setQuantity(amount + dao.findStockItem(barCode).getQuantity());
+                newStockItem.setName(dao.findStockItem(barCode).getName());
+                newStockItem.setPrice(dao.findStockItem(barCode).getPrice());
 
-            // remove existing item
-            dao.removeStockItem(dao.findStockItem(barCode));
+                // remove existing item
+                dao.removeStockItem(dao.findStockItem(barCode));
 
-            // save updated version of the item into sales system dao
-            dao.saveStockItem(newStockItem);
+                // save updated version of the item into sales system dao
+                dao.saveStockItem(newStockItem);
+            } catch (Exception e) {
+                e.printStackTrace();
+                log.info("Display of informations failed");
+                log.debug("New item info => name:" + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
+                log.debug("List of items in warehouse:" + dao.findStockItems());
+            }
         }
 
         barCodeField.clear();

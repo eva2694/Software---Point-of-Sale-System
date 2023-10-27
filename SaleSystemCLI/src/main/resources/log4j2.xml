@@ -12,5 +12,11 @@
 
     <logger name="Ratpack" level="info">
     </logger>
+
+    <logger name="Micepack" level="error">
+    </logger>
+
+    <logger name="Birdpack" level="debug">
+    </logger>        
   </Loggers>
 </Configuration>

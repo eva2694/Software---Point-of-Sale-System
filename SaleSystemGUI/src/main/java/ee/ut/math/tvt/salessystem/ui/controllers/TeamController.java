@@ -1,11 +1,14 @@
 package ee.ut.math.tvt.salessystem.ui.controllers;
 
+import ee.ut.math.tvt.salessystem.ui.SalesSystemUI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.fxml.Initializable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,6 +20,8 @@ import java.util.ResourceBundle;
 
 @SuppressWarnings("JavaFXVersion")
 public class TeamController implements Initializable {
+
+    private static final Logger log = LogManager.getLogger(TeamController.class);
 
     @FXML
     private Text teamName;
@@ -50,6 +55,7 @@ public class TeamController implements Initializable {
             teamLogo.setImage(image);
         } catch (Exception e) {
             e.printStackTrace();
+            log.info("Display of informations failed");
         }
 
 

@@ -174,6 +174,7 @@ public class PurchaseController implements Initializable {
             } catch (NumberFormatException e) {
                 quantity = 1;
             }
+            log.debug("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
             shoppingCart.addItem(new SoldItem(stockItem, quantity));
             purchaseTableView.refresh();
         }

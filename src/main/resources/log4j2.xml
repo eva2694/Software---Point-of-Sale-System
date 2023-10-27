@@ -5,13 +5,18 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
     </Appenders>
-    <!--LOGGING INFO FOR HW#4-->
     <Loggers>
         <Root level="info">
             <AppenderRef ref="Console"/>
         </Root>
 
         <logger name="Ratpack" level="info">
+        </logger>
+
+        <logger name="Micepack" level="error">
+        </logger>
+
+        <logger name="Birdpack" level="debug">
         </logger>
     </Loggers>
 </Configuration>

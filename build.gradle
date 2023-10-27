@@ -5,4 +5,11 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+dependencies {
+    implementation project(':')
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.1'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.1'
+//    testImplementation group: 'junit', name: 'junit', version:'4.+'
+}
+
 version = '1.0'

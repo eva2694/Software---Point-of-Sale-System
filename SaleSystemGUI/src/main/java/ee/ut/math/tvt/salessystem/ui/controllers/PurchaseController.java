@@ -60,6 +60,7 @@ public class PurchaseController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+       //
         cancelPurchase.setDisable(true);
         submitPurchase.setDisable(true);
         purchaseTableView.setItems(FXCollections.observableList(shoppingCart.getAll()));

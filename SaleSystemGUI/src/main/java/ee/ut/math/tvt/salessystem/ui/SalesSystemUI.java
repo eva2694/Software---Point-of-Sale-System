@@ -18,6 +18,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+// import the log4j classes to use for flags and logging hw#4
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -78,6 +79,7 @@ public class SalesSystemUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        // hw#4 log4j flags
         log.info("Salesystem GUI started");
         scene.getStylesheets().add(getClass().getResource("DefaultTheme.css").toExternalForm()); // add the style
     }

@@ -16,8 +16,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -82,6 +84,7 @@ public class PurchaseController implements Initializable {
     /** Event handler for the <code>new purchase</code> event. */
     @FXML
     protected void newPurchaseButtonClicked() {
+        System.out.println("1");
         log.info("New sale process started");
         try {
             enableInputs();
@@ -95,6 +98,7 @@ public class PurchaseController implements Initializable {
      */
     @FXML
     protected void cancelPurchaseButtonClicked() {
+        System.out.println("2");
         log.info("Sale cancelled");
         try {
             shoppingCart.cancelCurrentPurchase();
@@ -110,6 +114,7 @@ public class PurchaseController implements Initializable {
      */
     @FXML
     protected void submitPurchaseButtonClicked() {
+        System.out.println("3");
         log.info("Sale complete");
         try {
             log.debug("Contents of the current basket:\n" + shoppingCart.getAll());
@@ -171,13 +176,39 @@ public class PurchaseController implements Initializable {
             int quantity;
             try {
                 quantity = Integer.parseInt(quantityField.getText());
+                if (stockItem.getQuantity() < quantity) {   // we dont have enough product
+                    // System.out.println(stockItem.getQuantity());
+                    // System.out.println(quantity);
+                    SalesSystemException ex = new SalesSystemException("we dont have enough product");
+                    log.info("Item quantity exceeded available stock: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Requested Quantity: " + quantity + " - Available Quantity: " + stockItem.getQuantity());
+                    alert(stockItem);
+                    throw ex;
+                }
+                log.debug("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
+                shoppingCart.addItem(new SoldItem(stockItem, quantity));
+
+
             } catch (NumberFormatException e) {
                 quantity = 1;
+                log.debug("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
+                shoppingCart.addItem(new SoldItem(stockItem, quantity));
+            } catch (SalesSystemException e){
+                System.out.println("Item quantity exceeded");
             }
-            log.debug("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
-            shoppingCart.addItem(new SoldItem(stockItem, quantity));
+
             purchaseTableView.refresh();
         }
+    }
+
+    /*
+    * alert
+    * */
+    private void alert( StockItem stockItem) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Product Quantity Exceeded");
+        alert.setHeaderText(null);
+        alert.setContentText("We don't have enough product. Available quantity: " + stockItem.getQuantity());
+        alert.showAndWait();
     }
 
     /**

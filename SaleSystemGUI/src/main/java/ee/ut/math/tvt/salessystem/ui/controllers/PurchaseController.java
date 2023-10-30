@@ -245,5 +245,6 @@ public class PurchaseController implements Initializable {
         StockItem item = dao.findStockItem_Name(selectedName);
         barCodeField.setText(String.valueOf(item.getId()));
         priceField.setText(String.valueOf(item.getPrice()));
+        log.debug("User changed selected name in ChoiceBox");
     }
 }

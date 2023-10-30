@@ -176,9 +176,7 @@ public class PurchaseController implements Initializable {
             int quantity;
             try {
                 quantity = Integer.parseInt(quantityField.getText());
-                if (stockItem.getQuantity() < quantity) {   // we dont have enough product
-                    // System.out.println(stockItem.getQuantity());
-                    // System.out.println(quantity);
+                if (stockItem.getQuantity() < quantity) {
                     SalesSystemException ex = new SalesSystemException("we dont have enough product");
                     log.info("Item quantity exceeded available stock: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Requested Quantity: " + quantity + " - Available Quantity: " + stockItem.getQuantity());
                     alert(stockItem);

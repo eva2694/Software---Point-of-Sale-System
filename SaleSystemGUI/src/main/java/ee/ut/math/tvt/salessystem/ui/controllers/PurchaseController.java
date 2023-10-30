@@ -118,6 +118,15 @@ public class PurchaseController implements Initializable {
         log.info("Sale complete");
         try {
             log.debug("Contents of the current basket:\n" + shoppingCart.getAll());
+
+            // Decrease the stock quantity for each item in the shopping cart
+            for (SoldItem soldItem : shoppingCart.getAll()) {
+                StockItem stockItem = soldItem.getStockItem();
+                int soldQuantity = soldItem.getQuantity();
+                stockItem.setQuantity(stockItem.getQuantity() - soldQuantity);
+                dao.saveStockItem(stockItem);
+            }
+
             shoppingCart.submitCurrentPurchase();
             disableInputs();
             purchaseTableView.refresh();

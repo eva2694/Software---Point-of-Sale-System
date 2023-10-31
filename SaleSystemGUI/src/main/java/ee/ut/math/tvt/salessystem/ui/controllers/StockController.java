@@ -24,8 +24,6 @@ public class StockController implements Initializable {
     private final SalesSystemDAO dao;
 
     @FXML
-    private Button addItem;
-    @FXML
     private TableView<StockItem> warehouseTableView;
 
     @FXML

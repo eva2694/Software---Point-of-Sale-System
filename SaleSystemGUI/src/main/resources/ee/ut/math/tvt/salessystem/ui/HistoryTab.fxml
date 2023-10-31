@@ -17,8 +17,8 @@
       <AnchorPane prefHeight="200.0" styleClass="background_style" SplitPane.resizableWithParent="false">
             <children>
                <Button layoutX="35.0" layoutY="14.0" mnemonicParsing="false" text="Show between dates" />
-               <Button layoutX="35.0" layoutY="56.0" mnemonicParsing="false" prefWidth="125.6" text="Show last 10" textAlignment="CENTER" />
-               <Button layoutX="35.0" layoutY="82.0" mnemonicParsing="false" prefWidth="125.6" text="Show all" textAlignment="CENTER" />
+               <Button layoutX="35.0" layoutY="49.0" mnemonicParsing="false" prefWidth="125.6" text="Show last 10" textAlignment="CENTER" />
+               <Button layoutX="35.0" layoutY="82.0" mnemonicParsing="false" onMouseClicked="#showHistory" prefWidth="125.6" text="Show all" textAlignment="CENTER" />
                <DatePicker layoutX="353.0" layoutY="14.0" />
                <DatePicker layoutX="353.0" layoutY="40.0" />
                <Label layoutX="291.0" layoutY="18.0" text="Start date" />
@@ -28,21 +28,21 @@
       <AnchorPane prefHeight="200.0">
         <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="200.0" prefWidth="322.0" text="Purchase history" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <content>
-            <TableView fx:id="purchaseTableView" prefHeight="139.0" prefWidth="321.0" styleClass="blue_style">
+            <TableView fx:id="purchaseHistoryTableView" prefHeight="139.0" prefWidth="321.0" styleClass="blue_style">
               <columns>
                 <TableColumn text="Date">
                   <cellValueFactory>
-                    <PropertyValueFactory property="id" />
+                    <PropertyValueFactory property="saleDate" />
                   </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="Time">
                   <cellValueFactory>
-                    <PropertyValueFactory property="name" />
+                    <PropertyValueFactory property="saleTime" />
                   </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="Total">
                   <cellValueFactory>
-                    <PropertyValueFactory property="price" />
+                    <PropertyValueFactory/>
                   </cellValueFactory>
                 </TableColumn>
               </columns>
@@ -55,7 +55,7 @@
       </AnchorPane>
          <AnchorPane prefWidth="322.0">
             <children>
-               <TableView fx:id="purchaseTableView1" layoutY="-1.0" prefHeight="123.0" prefWidth="322.0" styleClass="blue_style" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <TableView fx:id="historyDetailsTableView" layoutY="-1.0" prefHeight="123.0" prefWidth="322.0" styleClass="blue_style" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <columns>
                      <TableColumn text="Id">
                         <cellValueFactory>

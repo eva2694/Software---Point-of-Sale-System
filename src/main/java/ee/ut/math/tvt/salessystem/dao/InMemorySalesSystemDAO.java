@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.dao;
 
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
+import ee.ut.math.tvt.salessystem.logic.Sale;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     private final List<StockItem> stockItemList;
     private final List<SoldItem> soldItemList;
+    private final List<Sale> salesList;
 
     public InMemorySalesSystemDAO() {
         List<StockItem> items = new ArrayList<StockItem>();
@@ -19,12 +21,18 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         items.add(new StockItem(4L, "Free Beer", "Student's delight", 0.0, 100));
         this.stockItemList = items;
         this.soldItemList = new ArrayList<>();
+        this.salesList = new ArrayList<>();
     }
 
     @Override
     public List<StockItem> findStockItems() {
         return stockItemList;
     }
+
+    public List<SoldItem> findSoldItems() {
+        return soldItemList;
+    }
+    public List<Sale> findSales() {return salesList; }
 
     @Override
     public StockItem findStockItem(long id) {
@@ -81,5 +89,8 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void commitTransaction() {
+        Sale newSale = new Sale(soldItemList);
+        salesList.add(newSale);
+        soldItemList.clear();
     }
 }

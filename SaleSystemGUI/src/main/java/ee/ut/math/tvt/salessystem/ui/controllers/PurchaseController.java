@@ -117,7 +117,7 @@ public class PurchaseController implements Initializable {
         System.out.println("3");
         log.info("Sale complete");
         try {
-            log.debug("Contents of the current basket:\n" + shoppingCart.getAll());
+            log.info("Contents of the current basket:\n" + shoppingCart.getAll());
 
             // Decrease the stock quantity for each item in the shopping cart
             for (SoldItem soldItem : shoppingCart.getAll()) {
@@ -192,7 +192,7 @@ public class PurchaseController implements Initializable {
                     throw ex;
                 }
                 log.debug("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
-                shoppingCart.addItem(new SoldItem(stockItem, quantity));
+                shoppingCart.   addItem(new SoldItem(stockItem, quantity));
 
 
             } catch (NumberFormatException e) {

@@ -15,8 +15,7 @@ Submission link: [Requirements Specification, Modeling, Planning](https://bitbuc
 123
 
 ## Homework 4:
-<Links to the solution>
-
+Submission link for task 1: [Debugging](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/wiki/HW-4%20Development%20Pha). <br>
 ## Homework 5:
 <Links to the solution>
 

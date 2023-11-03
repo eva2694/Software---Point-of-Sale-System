@@ -9,7 +9,7 @@ import java.util.List;
 
 public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
-    private final List<StockItem> stockItemList;
+    private List<StockItem> stockItemList;
     private final List<SoldItem> soldItemList;
     private final List<Sale> salesList;
 
@@ -71,12 +71,14 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void removeStockItem(StockItem stockItem) {
+        List<StockItem> updatedList = new ArrayList<>(stockItemList);
         for (StockItem item : stockItemList) {
             if (item.getId().equals(stockItem.getId()))
             {
-                stockItemList.remove(stockItem);
+                updatedList.remove(stockItem);
             }
         }
+        stockItemList = updatedList;
     }
 
     @Override

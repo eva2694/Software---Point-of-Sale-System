@@ -97,12 +97,7 @@ public class StockController implements Initializable {
             try {
                 // insert data into newStockItem
                 newStockItem.setId(barCode);
-                newStockItem.setQuantity(amount + dao.findStockItem(barCode).getQuantity());
-                newStockItem.setName(dao.findStockItem(barCode).getName());
-                newStockItem.setPrice(dao.findStockItem(barCode).getPrice());
-
-                // remove existing item
-                dao.removeStockItem(dao.findStockItem(barCode));
+                newStockItem.setQuantity(amount);// + dao.findStockItem(barCode).getQuantity());
 
                 // save updated version of the item into sales system dao
                 dao.saveStockItem(newStockItem);

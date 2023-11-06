@@ -11,6 +11,7 @@ public class SoldItem {
     private String name;
     private Integer quantity;
     private double price;
+    private double sum;
 
     public SoldItem() {
     }
@@ -58,6 +59,10 @@ public class SoldItem {
         return price * ((double) quantity);
     }
 
+    public void setSum(double sum) {
+        this.sum = sum;
+    }
+
     public StockItem getStockItem() {
         return stockItem;
     }
@@ -70,4 +75,16 @@ public class SoldItem {
     public String toString() {
         return String.format("SoldItem{id=%d, name='%s'}", id, name);
     }
+
+    public SoldItem copy() {
+        SoldItem copyItem = new SoldItem();
+        copyItem.setId(this.id); // Copie l'identifiant
+        copyItem.setStockItem(this.stockItem.copy()); // Copie l'objet StockItem en profondeur
+        copyItem.setName(this.name);
+        copyItem.setQuantity(this.quantity);
+        copyItem.setPrice(this.price);
+        copyItem.setSum(this.sum);
+        return copyItem;
+    }
+
 }

@@ -114,7 +114,6 @@ public class PurchaseController implements Initializable {
      */
     @FXML
     protected void submitPurchaseButtonClicked() {
-        System.out.println("3");
         log.info("Sale complete");
         try {
             log.info("Contents of the current basket:\n" + shoppingCart.getAll());
@@ -123,8 +122,15 @@ public class PurchaseController implements Initializable {
             for (SoldItem soldItem : shoppingCart.getAll()) {
                 StockItem stockItem = soldItem.getStockItem();
                 int soldQuantity = soldItem.getQuantity();
-                stockItem.setQuantity(stockItem.getQuantity() - soldQuantity);
-                dao.saveStockItem(stockItem);
+                if (stockItem.getQuantity() < soldQuantity) {
+                    SalesSystemException ex = new SalesSystemException("we dont have enough product");
+                    log.info("Item quantity exceeded available stock: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Requested Quantity: " + soldQuantity + " - Available Quantity: " + stockItem.getQuantity());
+                    alert(stockItem);
+                    throw ex;
+                }
+                else {
+                    stockItem.setQuantity(stockItem.getQuantity() - soldQuantity);
+                }
             }
 
             shoppingCart.submitCurrentPurchase();
@@ -192,8 +198,7 @@ public class PurchaseController implements Initializable {
                     throw ex;
                 }
                 log.debug("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
-                shoppingCart.   addItem(new SoldItem(stockItem, quantity));
-
+                shoppingCart.addItem(new SoldItem(stockItem, quantity));
 
             } catch (NumberFormatException e) {
                 quantity = 1;

@@ -66,17 +66,8 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void saveStockItem(StockItem stockItem) {
-        boolean flag = false;
-        for (StockItem item : stockItemList) {
-            if (item.getId() == stockItem.getId()) {
-                item.setQuantity(item.getQuantity()+stockItem.getQuantity());
-                flag=true;
-            }
-        }
-        if(!flag) {
             stockItemList.add(stockItem);
         }
-    }
 
     @Override
     public void removeStockItem(StockItem stockItem) {
@@ -100,8 +91,12 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void commitTransaction() {
-        Sale newSale = new Sale(soldItemList);
-        salesList.add(newSale);
+        List<SoldItem> shoppingCart = new ArrayList<>();
+        for (SoldItem item : soldItemList) {
+            shoppingCart.add(item.copy());
+        }
+        Sale sale = new Sale(shoppingCart);
+        salesList.add(sale);
         soldItemList.clear();
     }
 }

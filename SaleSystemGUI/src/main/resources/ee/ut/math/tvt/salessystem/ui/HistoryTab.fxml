@@ -42,7 +42,7 @@
                 </TableColumn>
                 <TableColumn text="Total">
                   <cellValueFactory>
-                    <PropertyValueFactory/>
+                    <PropertyValueFactory property="saleTotal"/>
                   </cellValueFactory>
                 </TableColumn>
               </columns>
@@ -74,12 +74,12 @@
                      </TableColumn>
                      <TableColumn text="quantity">
                         <cellValueFactory>
-                           <PropertyValueFactory property="price" />
+                           <PropertyValueFactory property="quantity" />
                         </cellValueFactory>
                      </TableColumn>
                      <TableColumn text="Sum">
                         <cellValueFactory>
-                           <PropertyValueFactory property="price" />
+                           <PropertyValueFactory  property="sum" />
                         </cellValueFactory>
                      </TableColumn>
                   </columns>

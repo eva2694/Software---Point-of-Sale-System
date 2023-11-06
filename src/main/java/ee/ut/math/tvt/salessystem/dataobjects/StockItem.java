@@ -66,4 +66,15 @@ public class StockItem {
     public String toString() {
         return String.format("StockItem{id=%d, name='%s'}", id, name);
     }
+
+    public StockItem copy() {
+        StockItem copyItem = new StockItem();
+        copyItem.setId(this.id);
+        copyItem.setName(this.name);
+        copyItem.setDescription(this.description);
+        copyItem.setPrice(this.price);
+        copyItem.setQuantity(this.quantity);
+        return copyItem;
+    }
+
 }

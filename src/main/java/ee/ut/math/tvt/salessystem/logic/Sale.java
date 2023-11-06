@@ -16,14 +16,22 @@ public class Sale {
     private List<SoldItem> items = new ArrayList<>();
     private LocalTime saleTime;
     private LocalDate saleDate;
-
-
+    private float saleTotal;
 
     public Sale(List<SoldItem> items) {
         this.items = items;
         LocalTime time = LocalTime.now();
         saleTime = LocalTime.of(time.getHour(), time.getMinute(), time.getSecond());
         saleDate = LocalDate.now();
+        saleTotal = getSaleTotal(items);
+    }
+
+    private float getSaleTotal(List<SoldItem> items) {
+        float total = 0;
+        for(SoldItem item : items){
+            total = (float) (total + item.getPrice()*item.getQuantity());
+        }
+        return total;
     }
 
     public LocalTime getSaleTime() {
@@ -32,6 +40,14 @@ public class Sale {
 
     public LocalDate getSaleDate() {
         return saleDate;
+    }
+
+    public float getSaleTotal() {
+        return saleTotal;
+    }
+
+    public List<SoldItem> getItems() {
+        return items;
     }
 
     /*public void newSale(ShoppingCart shoppingCart){

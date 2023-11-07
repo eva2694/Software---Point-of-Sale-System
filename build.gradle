@@ -16,4 +16,16 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version:'4.+'
 }
 
+task hsql (type: JavaExec) {
+    main = "org.hsqldb.Server"
+    classpath = sourceSets.main.runtimeClasspath
+    args = ["-database.0", "${projectDir}/data/pos", "-dbname.0", "pos"]
+}
+
+task dbmanager(dependsOn: 'classes', type: JavaExec) {
+    main = "org.hsqldb.util.DatabaseManagerSwing"
+    classpath = sourceSets.main.runtimeClasspath
+    args = ["--user", "sa", "--url", "jdbc:hsqldb:hsql://localhost/POS"]
+}
+
 version = '1.0'

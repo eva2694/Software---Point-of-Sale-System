@@ -16,6 +16,8 @@ pipelines:
             - gradle
           script:
             - gradle build
+          after-script:
+            - pipe: atlassian/checkstyle-report:0.3.0
       - step:
           name: Security Scan
           script:

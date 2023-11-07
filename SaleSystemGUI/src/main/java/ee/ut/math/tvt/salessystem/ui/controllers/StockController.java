@@ -100,7 +100,7 @@ public class StockController implements Initializable {
             else {
                 try {
                     // update quantity in stockItemList
-                    dao.findStockItem(barCode).setQuantity(newStockItem.getQuantity() + amount);
+                    dao.findStockItem(barCode).setQuantity(dao.findStockItem(barCode).getQuantity() + amount);
                 } catch (Exception e) {
                     e.printStackTrace();
                     log.info("Display of informations failed");
@@ -200,7 +200,7 @@ public class StockController implements Initializable {
             else {
                 try {
                     // update quantity in stockItemList
-                    dao.findStockItem(barCode).setQuantity(newStockItem.getQuantity() + amount);
+                    dao.findStockItem(barCode).setQuantity(dao.findStockItem(barCode).getQuantity() + amount);
                 } catch (Exception e) {
                     e.printStackTrace();
                     log.info("Display of informations failed");

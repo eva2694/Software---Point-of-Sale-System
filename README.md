@@ -15,7 +15,8 @@ Submission link: [Commit for the homework](https://bitbucket.org/software-engine
 123
 
 ## Homework 4:
-Submission link for task 1: [Debugging](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/wiki/HW-4%20Development%20Pha). <br>
+Submission link for task 1: [Debugging](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/wiki/HW-4%20Development%20Pha), [Commit for other tasks](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/commits/tag/homework-4) <br>
+
 ## Homework 5:
 <Links to the solution>
 

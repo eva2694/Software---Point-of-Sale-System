@@ -98,7 +98,9 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void commitTransaction() {
-        testCommitTransaction = true;
+        if(testBeginTransaction) {
+            testCommitTransaction = true;
+        }
         List<SoldItem> shoppingCart = new ArrayList<>();
         for (SoldItem item : soldItemList) {
             shoppingCart.add(item.copy());

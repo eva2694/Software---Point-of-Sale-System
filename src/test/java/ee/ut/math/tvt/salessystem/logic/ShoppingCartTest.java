@@ -12,10 +12,7 @@ public class ShoppingCartTest {
 
     @Test
     public void testAddingItemBeginsAndCommitsTransaction() throws Exception {
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            shoppingCart.submitCurrentPurchase();
-        });
+        shoppingCart.submitCurrentPurchase();
         assertTrue(dao.getTestBeginTransaction());
         assertTrue(dao.getTestCommitTransaction());
     }

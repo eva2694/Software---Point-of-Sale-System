@@ -213,4 +213,5 @@ public class StockController implements Initializable {
             showWarningDialog("Invalid Input", "Please enter valid numeric values for Barcode, Quantity, and Price.");
         }
     }
+
 }

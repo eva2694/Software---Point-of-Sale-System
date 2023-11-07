@@ -52,4 +52,9 @@ public interface SalesSystemDAO {
     List<String> NameList();
 
     StockItem findStockItem_Name(String name);
+
+    public boolean getTestBeginTransaction();
+
+    public boolean getTestCommitTransaction();
+
 }

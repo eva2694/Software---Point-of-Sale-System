@@ -7,14 +7,16 @@ import ee.ut.math.tvt.salessystem.logic.Sale;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.sqrt;
+
 public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     private List<StockItem> stockItemList;
     private final List<SoldItem> soldItemList;
     private final List<Sale> salesList;
 
-    public boolean transactionBegan = false;
-    public boolean transactionCommitted = false;
+    boolean testBeginTransaction = false;
+    boolean testCommitTransaction = false;
 
 
     public InMemorySalesSystemDAO() {
@@ -87,7 +89,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void beginTransaction() {
-        transactionBegan = true;
+        testBeginTransaction = true;
     }
 
     @Override
@@ -96,7 +98,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void commitTransaction() {
-        transactionCommitted = true; //for JUnit test
+        testCommitTransaction = true;
         List<SoldItem> shoppingCart = new ArrayList<>();
         for (SoldItem item : soldItemList) {
             shoppingCart.add(item.copy());
@@ -105,4 +107,12 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         salesList.add(sale);
         soldItemList.clear();
     }
+    @Override
+    public boolean getTestBeginTransaction() {
+        return testBeginTransaction;
+    }
+    public boolean getTestCommitTransaction() {
+        return testCommitTransaction;
+    }
+
 }

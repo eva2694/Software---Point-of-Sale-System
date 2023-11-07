@@ -57,11 +57,17 @@ public class ShoppingCart {
         // what is a transaction? https://stackoverflow.com/q/974596
         log.debug("Submitting the current purchase.");
         dao.beginTransaction();
+        if (!dao.getTestBeginTransaction()) {
+            throw new IllegalArgumentException("beginTransaction() wasn't called");
+        }
         try {
             for (SoldItem item : items) {
                 dao.saveSoldItem(item);
             }
             dao.commitTransaction();
+            if (!dao.getTestCommitTransaction()) {
+                throw new IllegalArgumentException("CommitTransaction() wasn't called");
+            }
             items.clear();
             log.debug("Transaction committed. Shopping cart cleared.");
         } catch (Exception e) {

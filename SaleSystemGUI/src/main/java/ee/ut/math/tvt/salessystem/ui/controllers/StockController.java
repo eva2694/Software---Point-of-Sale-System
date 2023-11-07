@@ -72,6 +72,10 @@ public class StockController implements Initializable {
             String name = nameField.getText();
             double price = Double.parseDouble(priceField.getText());
 
+            if (amount < 0) {
+                throw new IllegalArgumentException("Quantity cannot be negative");
+            }
+
             // CREATE NEW STOCKITEM
             StockItem newStockItem = dao.findStockItem(barCode);
 
@@ -155,5 +159,58 @@ public class StockController implements Initializable {
         quantityField.setText("1");
         nameField.setText("");
         priceField.setText("");
+    }
+
+    @FXML
+    public void addItemEventHandlerTest(String barCodetest, String quantitytest, String nametest, String pricetest) {
+        // Method identical to addItemEventHandler but adapted for the test
+
+        try{
+            // get data from form
+            Long barCode = Long.parseLong(barCodetest);
+            int amount = Integer.parseInt(quantitytest);
+            String name = nametest;
+            double price = Double.parseDouble(pricetest);
+
+            if (amount < 0) {
+                throw new IllegalArgumentException("Quantity cannot be negative");
+            }
+
+            // CREATE NEW STOCKITEM
+            StockItem newStockItem = dao.findStockItem(barCode);
+
+            if(newStockItem == null) {
+                try {
+                    // insert data into newStockItem
+                    newStockItem.setId(barCode);
+                    newStockItem.setQuantity(amount);
+                    newStockItem.setName(name);
+                    newStockItem.setPrice(price);
+
+                    // save into sales system dao
+                    dao.saveStockItem(newStockItem);
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                    log.info("Display of informations failed");
+                    log.debug("New item info => name:" + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
+                    log.debug("List of items in warehouse:" + dao.findStockItems());
+                }
+            }
+            else {
+                try {
+                    // update quantity in stockItemList
+                    newStockItem.setQuantity(newStockItem.getQuantity() + amount);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.info("Display of informations failed");
+                    log.debug("New item info => name:" + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
+                    log.debug("List of items in warehouse:" + dao.findStockItems());
+                }
+            }
+        }
+        catch (NumberFormatException e) {
+            showWarningDialog("Invalid Input", "Please enter valid numeric values for Barcode, Quantity, and Price.");
+        }
     }
 }

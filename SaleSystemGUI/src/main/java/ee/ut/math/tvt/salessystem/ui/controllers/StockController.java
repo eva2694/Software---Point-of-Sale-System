@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -64,61 +65,66 @@ public class StockController implements Initializable {
         // Implement the functionality for adding a product here
         // Look if product is already in database to avoid creating duplicate
 
-        // get data from form
-        Long barCode = Long.parseLong(barCodeField.getText());
-        int amount = Integer.parseInt(quantityField.getText());
-        String name = nameField.getText();
-        double price = Double.parseDouble(priceField.getText());
+        try{
+            // get data from form
+            Long barCode = Long.parseLong(barCodeField.getText());
+            int amount = Integer.parseInt(quantityField.getText());
+            String name = nameField.getText();
+            double price = Double.parseDouble(priceField.getText());
 
-        // CREATE NEW STOCKITEM
-        StockItem newStockItem = new StockItem();
+            // CREATE NEW STOCKITEM
+            StockItem newStockItem = dao.findStockItem(barCode);
 
-        if(dao.findStockItem(barCode) == null) {
+            if(newStockItem == null) {
+                try {
+                    // insert data into newStockItem
+                    newStockItem.setId(barCode);
+                    newStockItem.setQuantity(amount);
+                    newStockItem.setName(name);
+                    newStockItem.setPrice(price);
 
-            try {
-                // insert data into newStockItem
-                newStockItem.setId(barCode);
-                newStockItem.setQuantity(amount);
-                newStockItem.setName(name);
-                newStockItem.setPrice(price);
-
-                // save into sales system dao
-                dao.saveStockItem(newStockItem);
+                    // save into sales system dao
+                    dao.saveStockItem(newStockItem);
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                    log.info("Display of informations failed");
+                    log.debug("New item info => name:" + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
+                    log.debug("List of items in warehouse:" + dao.findStockItems());
+                }
             }
-            catch(Exception e) {
-                e.printStackTrace();
-                log.info("Display of informations failed");
-                log.debug("New item info => name:" + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
-                log.debug("List of items in warehouse:" + dao.findStockItems());
+            else {
+                try {
+                    // update quantity in stockItemList
+                    newStockItem.setQuantity(newStockItem.getQuantity() + amount);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.info("Display of informations failed");
+                    log.debug("New item info => name:" + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
+                    log.debug("List of items in warehouse:" + dao.findStockItems());
+                }
             }
-
+            barCodeField.clear();
+            quantityField.clear();
+            nameField.clear();
+            priceField.clear();
         }
-        else {
-            try {
-                // insert data into newStockItem
-                newStockItem.setId(barCode);
-                newStockItem.setQuantity(amount);// + dao.findStockItem(barCode).getQuantity());
-
-                // save updated version of the item into sales system dao
-                dao.saveStockItem(newStockItem);
-            } catch (Exception e) {
-                e.printStackTrace();
-                log.info("Display of informations failed");
-                log.debug("New item info => name:" + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
-                log.debug("List of items in warehouse:" + dao.findStockItems());
-            }
+        catch (NumberFormatException e) {
+            showWarningDialog("Invalid Input", "Please enter valid numeric values for Barcode, Quantity, and Price.");
         }
+    }
 
-        barCodeField.clear();
-        quantityField.clear();
-        nameField.clear();
-        priceField.clear();
+    private void showWarningDialog(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
     private void refreshStockItems() {
         warehouseTableView.setItems(FXCollections.observableList(dao.findStockItems()));
         warehouseTableView.refresh();
     }
-
 
     private void fillInputsBySelectedStockItem() {
         StockItem stockItem = getStockItemByBarcode();

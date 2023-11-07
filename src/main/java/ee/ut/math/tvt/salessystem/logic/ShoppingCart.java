@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.logic;
 
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
+import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,12 +25,19 @@ public class ShoppingCart {
     /**
      * Add new SoldItem to table.
      */
-    public void addItem(SoldItem item) {
-        // TODO In case such stockItem already exists increase the quantity of the existing stock
+    public void addItem(SoldItem soldItem) {
         // TODO verify that warehouse items' quantity remains at least zero or throw an exception
-
-        items.add(item);
-        log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
+        boolean flag = false;
+        for (SoldItem item : items) {
+            if (item.getId() == soldItem.getId()) {
+                item.setQuantity(item.getQuantity()+soldItem.getQuantity());
+                flag=true;
+            }
+        }
+        if(!flag) {
+            items.add(soldItem);
+        }
+        log.debug("Added " + soldItem.getName() + " quantity of " + soldItem.getQuantity());
     }
 
     public List<SoldItem> getAll() {

@@ -29,6 +29,8 @@ public class HistoryController implements Initializable {
 
     @FXML
     private TableView<Sale> purchaseHistoryTableView;
+    @FXML
+    private TableView<SoldItem> historyDetailsTableView;
 
     public HistoryController(SalesSystemDAO dao) {this.dao = dao;}
 
@@ -37,6 +39,16 @@ public class HistoryController implements Initializable {
         // TODO: implement
         salesList = dao.findSales();
         refreshHistoryView();
+        this.purchaseHistoryTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) {
+                Sale selectedSale = purchaseHistoryTableView.getSelectionModel().getSelectedItem();
+                if (selectedSale != null) {
+                    displaySaleDetails(selectedSale);
+                    log.debug("Selected Sale: " + selectedSale);
+                    log.debug("Sale items:" + selectedSale.getItems());
+                }
+            }
+        });
     }
 
     @FXML
@@ -47,6 +59,12 @@ public class HistoryController implements Initializable {
         purchaseHistoryTableView.setItems(FXCollections.observableList(salesList));
         purchaseHistoryTableView.refresh();
     }
+
+    private void displaySaleDetails(Sale sale){
+        historyDetailsTableView.setItems(FXCollections.observableList(sale.getItems()));
+        historyDetailsTableView.refresh();
+    }
+
 
 
 }

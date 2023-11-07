@@ -77,9 +77,9 @@ public class StockController implements Initializable {
             }
 
             // CREATE NEW STOCKITEM
-            StockItem newStockItem = dao.findStockItem(barCode);
+            StockItem newStockItem = new StockItem();
 
-            if(newStockItem == null) {
+            if(dao.findStockItem(barCode) == null) {
                 try {
                     // insert data into newStockItem
                     newStockItem.setId(barCode);
@@ -100,7 +100,7 @@ public class StockController implements Initializable {
             else {
                 try {
                     // update quantity in stockItemList
-                    newStockItem.setQuantity(newStockItem.getQuantity() + amount);
+                    dao.findStockItem(barCode).setQuantity(newStockItem.getQuantity() + amount);
                 } catch (Exception e) {
                     e.printStackTrace();
                     log.info("Display of informations failed");
@@ -177,9 +177,9 @@ public class StockController implements Initializable {
             }
 
             // CREATE NEW STOCKITEM
-            StockItem newStockItem = dao.findStockItem(barCode);
+            StockItem newStockItem = new StockItem();
 
-            if(newStockItem == null) {
+            if(dao.findStockItem(barCode) == null) {
                 try {
                     // insert data into newStockItem
                     newStockItem.setId(barCode);
@@ -200,7 +200,7 @@ public class StockController implements Initializable {
             else {
                 try {
                     // update quantity in stockItemList
-                    newStockItem.setQuantity(newStockItem.getQuantity() + amount);
+                    dao.findStockItem(barCode).setQuantity(newStockItem.getQuantity() + amount);
                 } catch (Exception e) {
                     e.printStackTrace();
                     log.info("Display of informations failed");

@@ -5,7 +5,6 @@
 
 # Prerequisites: appropriate project structure should exist in the repository.
 
-
 image: openjdk:11
 
 pipelines:
@@ -26,5 +25,6 @@ pipelines:
             # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
             - pipe: atlassian/git-secrets-scan:0.5.1
       - step:
+        name: Test with OpenJDK 11
           script:
             - ./gradlew test

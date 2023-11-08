@@ -16,8 +16,6 @@ public class StockControllerTest {
     private final SalesSystemDAO dao = new InMemorySalesSystemDAO();
     private final StockController stockController = new StockController(dao);
 
-    public StockControllerTest() throws IOException {
-    }
 
     @Test
     public void testAddingExistingItem() throws Exception{

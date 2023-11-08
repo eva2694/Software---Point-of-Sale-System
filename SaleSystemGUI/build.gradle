@@ -30,9 +30,9 @@ mainClassName = 'ee.ut.math.tvt.salessystem.ui.SalesSystemUI'
 jar {
 	doFirst {
         manifest {
-            if (!configurations.runtime.isEmpty()) {
-                attributes('Class-Path': 
-                                configurations.runtime.collect{it.toURI().toString()}.join(' '))
+            if (!configurations.runtimeClasspath.isEmpty()) {
+                attributes('Class-Path':
+                        configurations.runtimeClasspath.collect{it.toURI().toString()}.join(' '))
             }
         }
     }

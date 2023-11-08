@@ -1,15 +1,16 @@
-apply plugin: 'java'
-apply plugin: 'application'
-
-mainClassName = 'ee.ut.math.tvt.salessystem.ui.ConsoleUI'
+plugins {
+    id 'java'
+    id 'application'
+}
 
 repositories {
     mavenCentral()
     google()
 }
-
 version = '1.0'
-
+mainClassName = 'ee.ut.math.tvt.salessystem.ui.ConsoleUI'
+sourceCompatibility = 17
+targetCompatibility = 17
 
 dependencies {
     implementation project(':')
@@ -22,9 +23,9 @@ dependencies {
 jar {
 	doFirst {
         manifest {
-            if (!configurations.runtime.isEmpty()) {
-                attributes('Class-Path': 
-                                configurations.runtime.collect{it.toURI().toString()}.join(' '))
+            if (!configurations.runtimeClasspath.isEmpty()) {
+                attributes('Class-Path':
+                        configurations.runtimeClasspath.collect{it.toURI().toString()}.join(' '))
             }
         }
     }

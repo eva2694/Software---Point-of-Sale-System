@@ -1,16 +1,28 @@
 package ee.ut.math.tvt.salessystem.dataobjects;
+import javax.persistence.*;
 
 
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving history.
  */
+@Entity
+@Table(name = "sold_item")
 public class SoldItem {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    @JoinColumn(name = "stock_item_id")
     private StockItem stockItem;
+    @Column(name = "name")
     private String name;
+    @Column(name = "quantity")
+
     private Integer quantity;
+    @Column(name = "price")
     private double price;
+    @Transient // This field won't be persisted
     private double sum;
 
     public SoldItem() {

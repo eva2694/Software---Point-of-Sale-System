@@ -3,6 +3,7 @@ apply plugin: 'java'
 repositories {
     mavenCentral()
     google()
+    jcenter()
 }
 
 java {
@@ -14,6 +15,10 @@ dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.1'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.1'
     testImplementation group: 'junit', name: 'junit', version:'4.+'
+    implementation ('org.hsqldb:hsqldb:2.3.4')
+    implementation ('org.hibernate:hibernate-entitymanager:5.2.1.Final')
+    implementation ('org.hibernate:hibernate-java8:5.2.1.Final')
+    implementation "javax.xml.bind:jaxb-api:2.2.11"
 }
 
 task hsql (type: JavaExec) {

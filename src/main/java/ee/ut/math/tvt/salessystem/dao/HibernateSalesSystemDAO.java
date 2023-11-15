@@ -4,9 +4,7 @@ import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import ee.ut.math.tvt.salessystem.logic.Sale;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.List;
 
 public class HibernateSalesSystemDAO implements SalesSystemDAO {
@@ -46,12 +44,30 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void saveStockItem(StockItem stockItem) {
-
+        try {
+            beginTransaction();
+            em.persist(stockItem);
+            commitTransaction();
+        } catch (Exception e) {
+            rollbackTransaction();
+            e.printStackTrace();
+        } finally {
+            close();
+        }
     }
 
     @Override
     public void saveSoldItem(SoldItem item) {
-
+        try {
+            beginTransaction();
+            em.persist(item);
+            commitTransaction();
+        } catch (Exception e) {
+            rollbackTransaction();
+            e.printStackTrace();
+        } finally {
+            close();
+        }
     }
 
     @Override
@@ -74,7 +90,8 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public List<String> NameList() {
-        return null;
+       // Query query = em.createQuery("SELECT name FROM stock_item");
+        return null;//query.getResultList();
     }
 
     @Override

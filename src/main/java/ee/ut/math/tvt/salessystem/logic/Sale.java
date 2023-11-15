@@ -4,18 +4,28 @@ import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.persistence.*;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "sale")
 public class Sale {
     private static final Logger log = LogManager.getLogger(ShoppingCart.class);
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SoldItem> items = new ArrayList<>();
+    @Column(name = "sale_time")
     private LocalTime saleTime;
+    @Column(name = "sale_date")
     private LocalDate saleDate;
+    @Column(name = "sale_total")
     private float saleTotal;
 
     public Sale(List<SoldItem> items) {
@@ -24,6 +34,10 @@ public class Sale {
         saleTime = LocalTime.of(time.getHour(), time.getMinute(), time.getSecond());
         saleDate = LocalDate.now();
         saleTotal = getSaleTotal(items);
+    }
+
+    public Sale() {
+
     }
 
     private float getSaleTotal(List<SoldItem> items) {

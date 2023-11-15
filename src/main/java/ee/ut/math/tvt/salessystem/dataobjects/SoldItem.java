@@ -1,4 +1,6 @@
 package ee.ut.math.tvt.salessystem.dataobjects;
+import ee.ut.math.tvt.salessystem.logic.Sale;
+
 import javax.persistence.*;
 
 
@@ -12,6 +14,9 @@ public class SoldItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    @JoinColumn(name = "sale_id")
+    private Sale sale;
     @ManyToOne
     @JoinColumn(name = "stock_item_id")
     private StockItem stockItem;

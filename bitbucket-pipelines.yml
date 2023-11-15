@@ -12,10 +12,8 @@ pipelines:
     - parallel:
       - step:
           name: Build and Test
-          caches:
-            - gradle
           script:
-            - gradle build
+            - ./gradlew build
           after-script:
             - pipe: atlassian/checkstyle-report:0.3.0
       - step:

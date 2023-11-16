@@ -72,8 +72,10 @@ public class StockController implements Initializable {
             String name = nameField.getText();
             double price = Double.parseDouble(priceField.getText());
 
-            if (amount < 0) {
-                throw new IllegalArgumentException("Quantity cannot be negative");
+            if (barCode < 0 || amount < 0 || price < 0) {
+                showWarningDialog("Invalid Input", "Barcode, Quantity, and Price cannot be negative.");
+                log.info("Displaying warning dialog for invalid input: negative values.");
+                throw new IllegalArgumentException("Barcode, Quantity, and Price cannot be negative");
             }
 
             // CREATE NEW STOCKITEM
@@ -88,7 +90,9 @@ public class StockController implements Initializable {
                     newStockItem.setPrice(price);
 
                     // save into sales system dao
+                    log.debug("Adding new item to the warehouse: " + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
                     dao.saveStockItem(newStockItem);
+                    log.info("New item added to the warehouse: " + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
                 }
                 catch(Exception e) {
                     e.printStackTrace();
@@ -101,9 +105,12 @@ public class StockController implements Initializable {
                 try {
                     // update quantity in stockItemList
                     dao.findStockItem(barCode).setQuantity(dao.findStockItem(barCode).getQuantity() + amount);
+                    log.info("Item quantity updated in the warehouse: " + name + " (ID: " + barCode + ") - New Quantity: " + dao.findStockItem(barCode).getQuantity());
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     log.info("Display of informations failed");
+                    log.error("Failed to update item quantity in the warehouse", e);
                     log.debug("New item info => name:" + newStockItem.getName() + " (ID: " + newStockItem.getId() + ") - Quantity: " + newStockItem.getQuantity());
                     log.debug("List of items in warehouse:" + dao.findStockItems());
                 }
@@ -115,6 +122,8 @@ public class StockController implements Initializable {
         }
         catch (NumberFormatException e) {
             showWarningDialog("Invalid Input", "Please enter valid numeric values for Barcode, Quantity, and Price.");
+            log.info("Invalid Input, warning message shown: numeric values needed for Barcode, Quantity, and Price.");
+
         }
     }
 
@@ -128,6 +137,7 @@ public class StockController implements Initializable {
     private void refreshStockItems() {
         warehouseTableView.setItems(FXCollections.observableList(dao.findStockItems()));
         warehouseTableView.refresh();
+        log.info("Warehouse view refreshed");
     }
 
     private void fillInputsBySelectedStockItem() {

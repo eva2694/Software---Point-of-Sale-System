@@ -197,12 +197,12 @@ public class PurchaseController implements Initializable {
                     alert(stockItem);
                     throw ex;
                 }
-                log.debug("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
+                log.info("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
                 shoppingCart.addItem(new SoldItem(stockItem, quantity));
 
             } catch (NumberFormatException e) {
                 quantity = 1;
-                log.debug("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
+                log.info("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
                 shoppingCart.addItem(new SoldItem(stockItem, quantity));
             } catch (SalesSystemException e){
                 System.out.println("Item quantity exceeded");

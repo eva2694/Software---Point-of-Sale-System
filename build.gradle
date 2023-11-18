@@ -17,20 +17,25 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version:'4.+'
     implementation ('org.hsqldb:hsqldb:2.7.1')
     implementation ('org.hibernate:hibernate-entitymanager:5.2.1.Final')
-    implementation ('org.hibernate:hibernate-java8:5.2.1.Final')
+    implementation ('org.hibernate:hibernate-java8:5.5.6.Final')
     implementation "javax.xml.bind:jaxb-api:2.2.11"
 }
 
 task hsql (type: JavaExec) {
     main = "org.hsqldb.Server"
     classpath = sourceSets.main.runtimeClasspath
-    args = ["-database.0", "${projectDir}/data/pos", "-dbname.0", "pos"]
+    args = [
+            "-database.0", "${projectDir}/data/pos",
+            "-dbname.0", "pos",
+            "-props", "${projectDir}/server.properties",
+            "-port", "9001"
+    ]
 }
 
 task dbmanager(dependsOn: 'classes', type: JavaExec) {
     main = "org.hsqldb.util.DatabaseManagerSwing"
     classpath = sourceSets.main.runtimeClasspath
-    args = ["--user", "sa", "--url", "jdbc:hsqldb:hsql://localhost/POS"]
+    args = ["--user", "sa", "--url", "jdbc:hsqldb:hsql://localhost:9001/data/pos"]
 }
 
 version = '1.0'

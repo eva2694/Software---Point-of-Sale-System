@@ -10,19 +10,19 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="500.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
   <SplitPane dividerPositions="0.25, 0.75" orientation="VERTICAL" prefHeight="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
     <items>
       <AnchorPane prefHeight="200.0" styleClass="background_style" SplitPane.resizableWithParent="false">
             <children>
-               <Button layoutX="35.0" layoutY="14.0" mnemonicParsing="false" text="Show between dates" />
-               <Button layoutX="35.0" layoutY="49.0" mnemonicParsing="false" prefWidth="125.6" text="Show last 10" textAlignment="CENTER" />
-               <Button layoutX="35.0" layoutY="82.0" mnemonicParsing="false" onMouseClicked="#showHistory" prefWidth="125.6" text="Show all" textAlignment="CENTER" />
-               <DatePicker layoutX="353.0" layoutY="14.0" />
-               <DatePicker layoutX="353.0" layoutY="40.0" />
+               <Button layoutX="35.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#showBetweenDates" text="Show between dates" />
+               <Button layoutX="35.0" layoutY="51.0" mnemonicParsing="false" onMouseClicked="#showLastTen" text="       Show last 10      " textAlignment="CENTER" />
+               <Button layoutX="34.0" layoutY="91.0" mnemonicParsing="false" onMouseClicked="#showHistory" text="          Show all          " textAlignment="CENTER" />
+               <DatePicker fx:id="start_date" layoutX="353.0" layoutY="14.0" />
+               <DatePicker fx:id="end_date" layoutX="353.0" layoutY="49.0" />
                <Label layoutX="291.0" layoutY="18.0" text="Start date" />
-               <Label layoutX="293.0" layoutY="44.0" text="End Date" />
+               <Label layoutX="293.0" layoutY="53.0" text="End Date" />
             </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0">
@@ -42,7 +42,7 @@
                 </TableColumn>
                 <TableColumn text="Total">
                   <cellValueFactory>
-                    <PropertyValueFactory property="saleTotal"/>
+                    <PropertyValueFactory property="saleTotal" />
                   </cellValueFactory>
                 </TableColumn>
               </columns>
@@ -79,7 +79,7 @@
                      </TableColumn>
                      <TableColumn text="Sum">
                         <cellValueFactory>
-                           <PropertyValueFactory  property="sum" />
+                           <PropertyValueFactory property="sum" />
                         </cellValueFactory>
                      </TableColumn>
                   </columns>

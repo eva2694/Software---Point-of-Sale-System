@@ -7,6 +7,7 @@ import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,8 +15,11 @@ import org.apache.logging.log4j.Logger;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -31,6 +35,10 @@ public class HistoryController implements Initializable {
     private TableView<Sale> purchaseHistoryTableView;
     @FXML
     private TableView<SoldItem> historyDetailsTableView;
+    @FXML
+    private DatePicker start_date;
+    @FXML
+    private DatePicker end_date;
 
     public HistoryController(SalesSystemDAO dao) {this.dao = dao;}
 
@@ -38,7 +46,7 @@ public class HistoryController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // TODO: implement
         salesList = dao.findSales();
-        refreshHistoryView();
+        refreshHistoryView(0);
         this.purchaseHistoryTableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Sale selectedSale = purchaseHistoryTableView.getSelectionModel().getSelectedItem();
@@ -52,19 +60,55 @@ public class HistoryController implements Initializable {
     }
 
     @FXML
-    public void showHistory() {refreshHistoryView(); }
+    public void showHistory() {
+        refreshHistoryView(0);
+        log.info("Button Show All was pressed in History Tab.");
+    }
+    @FXML
+    public void showLastTen() {
+        refreshHistoryView(1);
+        log.info("Button Show Last 10 was pressed in History Tab.");
+    }
+    @FXML
+    public void showBetweenDates() {
+        refreshHistoryView(2);
+        log.info("Button Show Between Dates was pressed in History Tab.");
+    }
 
-    private void refreshHistoryView() {
+
+    private void refreshHistoryView(int choice) {
         salesList = dao.findSales();
-        purchaseHistoryTableView.setItems(FXCollections.observableList(salesList));
+        switch (choice) {
+            case 0:
+                purchaseHistoryTableView.setItems(FXCollections.observableList(salesList));
+                break;
+            case 1:
+                List<Sale> lastTen = new ArrayList<>(salesList.subList(Math.max(salesList.size()-10, 0),salesList.size()));
+                purchaseHistoryTableView.setItems(FXCollections.observableList(lastTen));
+                break;
+            case 2:
+                try {
+                    LocalDate start = start_date.getValue();
+                    LocalDate end = end_date.getValue();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.error("Date were not selected when button was pressed.");
+                }
+
+                List<Sale> betweenDate = salesList.stream()
+                        .filter(Sale -> isDateInRange(Sale.getSaleDate(), start, end)).collect(Collectors.toList());
+                purchaseHistoryTableView.setItems(FXCollections.observableList(betweenDate));
+                break;
+        }
         purchaseHistoryTableView.refresh();
+    }
+
+    private boolean isDateInRange(LocalDate saleDate, LocalDate start, LocalDate end) {
+        return !saleDate.isBefore(start) && !saleDate.isAfter(end);
     }
 
     private void displaySaleDetails(Sale sale){
         historyDetailsTableView.setItems(FXCollections.observableList(sale.getItems()));
         historyDetailsTableView.refresh();
     }
-
-
-
 }

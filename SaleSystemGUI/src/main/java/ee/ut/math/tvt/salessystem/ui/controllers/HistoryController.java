@@ -90,14 +90,13 @@ public class HistoryController implements Initializable {
                 try {
                     LocalDate start = start_date.getValue();
                     LocalDate end = end_date.getValue();
+                    List<Sale> betweenDate = salesList.stream()
+                            .filter(Sale -> isDateInRange(Sale.getSaleDate(), start, end)).collect(Collectors.toList());
+                    purchaseHistoryTableView.setItems(FXCollections.observableList(betweenDate));
                 } catch (Exception e) {
                     e.printStackTrace();
                     log.error("Date were not selected when button was pressed.");
                 }
-
-                List<Sale> betweenDate = salesList.stream()
-                        .filter(Sale -> isDateInRange(Sale.getSaleDate(), start, end)).collect(Collectors.toList());
-                purchaseHistoryTableView.setItems(FXCollections.observableList(betweenDate));
                 break;
         }
         purchaseHistoryTableView.refresh();

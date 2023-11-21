@@ -39,7 +39,8 @@ public interface SalesSystemDAO {
 
     void saveStockItem(StockItem stockItem);
 
-    void saveSoldItem(SoldItem item);
+    //void saveSoldItem(SoldItem item);
+    void saveSoldItemsAndCreateSale(List<SoldItem> soldItems);
 
     void removeStockItem(StockItem stockItem);
 
@@ -57,4 +58,6 @@ public interface SalesSystemDAO {
 
     public boolean getTestCommitTransaction();
 
+    //public void saveSale(Sale sale);
+    public Sale findSale(long id);
 }

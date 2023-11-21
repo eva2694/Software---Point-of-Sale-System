@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.logic;
 
+import ee.ut.math.tvt.salessystem.SalesSystemException;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ShoppingCart {
 
@@ -50,30 +52,32 @@ public class ShoppingCart {
     }
 
     public void submitCurrentPurchase() {
-        // TODO decrease quantities of the warehouse stock
-
-        // note the use of transactions. InMemorySalesSystemDAO ignores transactions
-        // but when you start using hibernate in lab5, then it will become relevant.
-        // what is a transaction? https://stackoverflow.com/q/974596
         log.debug("Submitting the current purchase.");
-        dao.beginTransaction();
-        if (!dao.getTestBeginTransaction()) {
-            throw new IllegalArgumentException("beginTransaction() wasn't called");
-        }
+
         try {
-            for (SoldItem item : items) {
-                dao.saveSoldItem(item);
+            // Decrease the stock quantity for each item in the shopping cart
+            for (SoldItem soldItem : items) {
+                StockItem stockItem = soldItem.getStockItem();
+                int soldQuantity = soldItem.getQuantity();
+                if (stockItem.getQuantity() < soldQuantity) {
+                    SalesSystemException ex = new SalesSystemException("We don't have enough product");
+                    log.info("Item quantity exceeded available stock: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Requested Quantity: " + soldQuantity + " - Available Quantity: " + stockItem.getQuantity());
+                    throw ex;
+                } else {
+                    stockItem.setQuantity(stockItem.getQuantity() - soldQuantity);
+                    dao.saveStockItem(stockItem);
+                }
             }
-            dao.commitTransaction();
-            if (!dao.getTestCommitTransaction()) {
-                throw new IllegalArgumentException("CommitTransaction() wasn't called");
-            }
+
+            dao.saveSoldItemsAndCreateSale(items);
             items.clear();
-            log.debug("Transaction committed. Shopping cart cleared.");
+            log.debug("Shopping cart cleared after submitting the purchase.");
         } catch (Exception e) {
             log.error("Error submitting the purchase: " + e.getMessage());
-            dao.rollbackTransaction();
-            throw e;
+            throw new SalesSystemException("Error submitting the purchase: " + e.getMessage(), e);
         }
     }
+
+
+
 }

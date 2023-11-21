@@ -64,6 +64,10 @@ public class Sale {
         return items;
     }
 
+    public Long getId() {
+        return Id;
+    }
+
     /*public void newSale(ShoppingCart shoppingCart){
         this.shoppingCart = shoppingCart;
         this.saleDate = LocalDate.now();

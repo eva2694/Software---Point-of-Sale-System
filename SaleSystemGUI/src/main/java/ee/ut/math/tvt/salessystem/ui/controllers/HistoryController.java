@@ -6,6 +6,7 @@ import ee.ut.math.tvt.salessystem.logic.Sale;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
@@ -94,12 +95,21 @@ public class HistoryController implements Initializable {
                             .filter(Sale -> isDateInRange(Sale.getSaleDate(), start, end)).collect(Collectors.toList());
                     purchaseHistoryTableView.setItems(FXCollections.observableList(betweenDate));
                 } catch (Exception e) {
+                    alert();
                     e.printStackTrace();
                     log.error("Date were not selected when button was pressed.");
                 }
                 break;
         }
         purchaseHistoryTableView.refresh();
+    }
+
+    private void alert() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Date range not selected");
+        alert.setHeaderText(null);
+        alert.setContentText("You have to select date range to see sales between dates.");
+        alert.showAndWait();
     }
 
     private boolean isDateInRange(LocalDate saleDate, LocalDate start, LocalDate end) {

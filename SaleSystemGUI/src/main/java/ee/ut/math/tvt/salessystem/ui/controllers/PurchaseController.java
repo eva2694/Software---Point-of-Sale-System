@@ -133,7 +133,7 @@ public class PurchaseController implements Initializable {
                     throw ex;
                 }
                 else {
-                    stockItem.setQuantity(stockItem.getQuantity() - soldQuantity);
+                    stockItem.setQuantity(stockItem.getQuantity());
                 }
             }
 

@@ -121,15 +121,6 @@ public class PurchaseController implements Initializable {
         log.info("Sale complete");
         try {
             log.info("Contents of the current basket:\n" + shoppingCart.getAll());
-
-            // Decrease the stock quantity for each item in the shopping cart
-            for (SoldItem soldItem : shoppingCart.getAll()) {
-                StockItem stockItem = soldItem.getStockItem();
-                int soldQuantity = soldItem.getQuantity();
-                stockItem.setQuantity(stockItem.getQuantity());
-
-            }
-
             shoppingCart.submitCurrentPurchase();
             disableInputs();
             purchaseTableView.refresh();
@@ -137,7 +128,6 @@ public class PurchaseController implements Initializable {
             log.error(e.getMessage(), e);
         }
     }
-
 
 
     // switch UI to the state that allows to proceed with the purchase
@@ -184,38 +174,42 @@ public class PurchaseController implements Initializable {
      */
     @FXML
     public void addItemEventHandler() {
-        // add chosen item to the shopping cart.
         StockItem stockItem = getStockItemByBarcode();
+
         if (stockItem != null) {
-            int quantity;
             try {
-                quantity = Integer.parseInt(quantityField.getText());
+                int quantity = validateQuantityInput();
                 if (stockItem.getQuantity() < quantity) {
-                    SalesSystemException ex = new SalesSystemException("we dont have enough product");
-                    log.info("Item quantity exceeded available stock: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Requested Quantity: " + quantity + " - Available Quantity: " + stockItem.getQuantity());
-                    alert( "Product Quantity Exceeded", "We don't have enough product. Available quantity: " + stockItem.getQuantity());
-                    throw ex;
+                    handleInvalidQuantity("Product Quantity Exceeded", "We don't have enough product. Available quantity: " + stockItem.getQuantity());
                 }
-                if (quantity < 1) {
-                    SalesSystemException ex = new SalesSystemException("Invalid product quantity");
-                    log.info("quested Quantity: " + quantity + " is not valid. I should be at least 1!");
-                    alert("Requested quantity below 1", "Please enter a valid quantity");
-                    throw ex;
-                }
+
                 log.info("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
                 shoppingCart.addItem(new SoldItem(stockItem, quantity));
 
-            } catch (NumberFormatException e) {
-                quantity = 1;
-                log.info("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
-                shoppingCart.addItem(new SoldItem(stockItem, quantity));
-            } catch (SalesSystemException e){
-                System.out.println("Item quantity not valid");
+                purchaseTableView.refresh();
+            } catch (NumberFormatException | SalesSystemException e) {
+                log.error("Error adding item: " + e.getMessage());
             }
-
-            purchaseTableView.refresh();
         }
     }
+
+    private int validateQuantityInput() throws NumberFormatException, SalesSystemException {
+        int quantity = Integer.parseInt(quantityField.getText());
+        if (quantity < 1) {
+            String title = "Invalid product quantity";
+            String content = "Quantity should be at least 1.";
+            alert(title, content);
+            throw new SalesSystemException(title + ": " + content);
+        }
+        return quantity;
+    }
+
+    private void handleInvalidQuantity(String title, String content) {
+        log.info(content);
+        alert(title, content);
+        throw new SalesSystemException(content);
+    }
+
 
     /*
     * alert
@@ -245,7 +239,6 @@ public class PurchaseController implements Initializable {
     private void resetProductField() {
         barCodeField.setText("");
         quantityField.setText("1");
-        //nameField.setText("");
         priceField.setText("");
     }
 

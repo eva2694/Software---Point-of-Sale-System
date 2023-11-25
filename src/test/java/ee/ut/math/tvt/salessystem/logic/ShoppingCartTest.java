@@ -14,8 +14,10 @@ public class ShoppingCartTest {
     private final SalesSystemDAO dao = new InMemorySalesSystemDAO();
     private final ShoppingCart shoppingCart = new ShoppingCart(dao);
 
+    // TODO make this test work
     @Test
     public void testAddingItemBeginsAndCommitsTransaction() throws Exception {
+        shoppingCart.addItem(new SoldItem(dao.findStockItem(1L), 1));
         shoppingCart.submitCurrentPurchase();
         assertTrue(dao.getTestBeginTransaction());
         assertTrue(dao.getTestCommitTransaction());

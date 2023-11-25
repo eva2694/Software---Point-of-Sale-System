@@ -126,15 +126,8 @@ public class PurchaseController implements Initializable {
             for (SoldItem soldItem : shoppingCart.getAll()) {
                 StockItem stockItem = soldItem.getStockItem();
                 int soldQuantity = soldItem.getQuantity();
-                if (stockItem.getQuantity() < soldQuantity) {
-                    SalesSystemException ex = new SalesSystemException("we dont have enough product");
-                    log.info("Item quantity exceeded available stock: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Requested Quantity: " + soldQuantity + " - Available Quantity: " + stockItem.getQuantity());
-                    alert(stockItem);
-                    throw ex;
-                }
-                else {
-                    stockItem.setQuantity(stockItem.getQuantity());
-                }
+                stockItem.setQuantity(stockItem.getQuantity());
+
             }
 
             shoppingCart.submitCurrentPurchase();
@@ -200,7 +193,13 @@ public class PurchaseController implements Initializable {
                 if (stockItem.getQuantity() < quantity) {
                     SalesSystemException ex = new SalesSystemException("we dont have enough product");
                     log.info("Item quantity exceeded available stock: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Requested Quantity: " + quantity + " - Available Quantity: " + stockItem.getQuantity());
-                    alert(stockItem);
+                    alert( "Product Quantity Exceeded", "We don't have enough product. Available quantity: " + stockItem.getQuantity());
+                    throw ex;
+                }
+                if (quantity < 1) {
+                    SalesSystemException ex = new SalesSystemException("Invalid product quantity");
+                    log.info("quested Quantity: " + quantity + " is not valid. I should be at least 1!");
+                    alert("Requested quantity below 1", "Please enter a valid quantity");
                     throw ex;
                 }
                 log.info("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
@@ -211,7 +210,7 @@ public class PurchaseController implements Initializable {
                 log.info("Adding item: " + stockItem.getName() + " (ID: " + stockItem.getId() + ") - Quantity: " + quantity);
                 shoppingCart.addItem(new SoldItem(stockItem, quantity));
             } catch (SalesSystemException e){
-                System.out.println("Item quantity exceeded");
+                System.out.println("Item quantity not valid");
             }
 
             purchaseTableView.refresh();
@@ -221,11 +220,11 @@ public class PurchaseController implements Initializable {
     /*
     * alert
     * */
-    private void alert( StockItem stockItem) {
+    private void alert(String title, String content) {
         Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle("Product Quantity Exceeded");
+        alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText("We don't have enough product. Available quantity: " + stockItem.getQuantity());
+        alert.setContentText(content);
         alert.showAndWait();
     }
 

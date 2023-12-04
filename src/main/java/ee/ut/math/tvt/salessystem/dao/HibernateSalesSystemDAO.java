@@ -272,6 +272,13 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         return query.getSingleResult();
     }
 
+    public List<SoldItem> findSaleDetails(Long id) {
+        TypedQuery<SoldItem> query = this.em.createQuery("SELECT s FROM SoldItem s WHERE s.id = id", SoldItem.class);
+        return query.getResultList();
+    }
+
+
+
     @Override
     public boolean getTestBeginTransaction() {
         return this.testBeginTransaction;

@@ -135,4 +135,9 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         return null;
     }
 
+    @Override
+    public List<SoldItem> findSaleDetails(Long id) {
+        return null;
+    }
+
 }

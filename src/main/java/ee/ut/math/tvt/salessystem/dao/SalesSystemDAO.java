@@ -60,4 +60,6 @@ public interface SalesSystemDAO {
 
     //public void saveSale(Sale sale);
     public Sale findSale(long id);
+
+    List<SoldItem> findSaleDetails(Long id);
 }

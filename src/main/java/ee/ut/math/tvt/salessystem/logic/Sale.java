@@ -14,11 +14,9 @@ import java.util.List;
 @Entity
 @Table(name = "sale")
 public class Sale {
-    private static final Logger log = LogManager.getLogger(ShoppingCart.class);
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SoldItem> items = new ArrayList<>();
     @Column(name = "sale_time")
@@ -27,6 +25,8 @@ public class Sale {
     private LocalDate saleDate;
     @Column(name = "sale_total")
     private float saleTotal;
+
+    private static final Logger log = LogManager.getLogger(ShoppingCart.class);
 
     public Sale(List<SoldItem> items) {
         this.items = items;
@@ -65,7 +65,7 @@ public class Sale {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     /*public void newSale(ShoppingCart shoppingCart){

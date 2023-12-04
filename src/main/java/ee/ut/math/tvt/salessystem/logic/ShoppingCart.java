@@ -68,7 +68,7 @@ public class ShoppingCart {
         log.debug("Submitting the current purchase.");
 
         try {
-            if(items.isEmpty()) {
+            if(!items.isEmpty()) {
                 // Decrease the stock quantity for each item in the shopping cart
                 for (SoldItem soldItem : items) {
                     StockItem stockItem = soldItem.getStockItem();

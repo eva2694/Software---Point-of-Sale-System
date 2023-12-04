@@ -97,8 +97,8 @@ public class SoldItem {
 
     public SoldItem copy() {
         SoldItem copyItem = new SoldItem();
-        copyItem.setId(this.id); // Copie l'identifiant
-        copyItem.setStockItem(this.stockItem.copy()); // Copie l'objet StockItem en profondeur
+        copyItem.setId(this.id);
+        copyItem.setStockItem(this.stockItem.copy());
         copyItem.setName(this.name);
         copyItem.setQuantity(this.quantity);
         copyItem.setPrice(this.price);

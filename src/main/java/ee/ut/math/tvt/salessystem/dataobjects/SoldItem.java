@@ -106,4 +106,7 @@ public class SoldItem {
         return copyItem;
     }
 
+    public void setSale(Sale sale) {
+        this.sale = sale;
+    }
 }

@@ -30,6 +30,9 @@ public class Sale {
 
     public Sale(List<SoldItem> items) {
         this.items = items;
+        for(SoldItem item : items) {
+            item.setSale(this);
+        }
         LocalTime time = LocalTime.now();
         saleTime = LocalTime.of(time.getHour(), time.getMinute(), time.getSecond());
         saleDate = LocalDate.now();

@@ -54,6 +54,8 @@ public interface SalesSystemDAO {
 
     StockItem findStockItem_Name(String name);
 
+    void updateQuantity(Long id, int itemQuantity);
+
     public boolean getTestBeginTransaction();
 
     public boolean getTestCommitTransaction();

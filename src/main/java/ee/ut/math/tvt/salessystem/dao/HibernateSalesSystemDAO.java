@@ -271,6 +271,16 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         query.setParameter("name", name);
         return query.getSingleResult();
     }
+    @Override
+    public void updateQuantity(Long itemId, int itemQuantity) {
+        beginTransaction();
+        Query query = this.em.createQuery("UPDATE StockItem SET quantity = :itemQuantity WHERE id = :itemId");
+        query.setParameter("itemQuantity", itemQuantity);
+        query.setParameter("itemId", itemId);
+        int updatedRows = query.executeUpdate();
+        commitTransaction();
+        this.em.clear();
+    }
 
     @Override
     public boolean getTestBeginTransaction() {

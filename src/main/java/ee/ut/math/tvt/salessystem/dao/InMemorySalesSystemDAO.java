@@ -65,6 +65,11 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         return null;
     }
 
+    @Override
+    public void updateQuantity(Long id, int itemQuantity) {
+
+    }
+
     /*@Override
     public void saveSoldItem(SoldItem item) {
         soldItemList.add(item);
@@ -132,11 +137,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 */
     @Override
     public Sale findSale(long id) {
-        return null;
-    }
-
-    @Override
-    public List<SoldItem> findSaleDetails(Long id) {
         return null;
     }
 

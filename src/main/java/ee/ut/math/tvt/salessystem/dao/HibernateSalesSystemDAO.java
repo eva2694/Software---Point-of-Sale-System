@@ -162,6 +162,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
       try {
           if (!transaction.isActive()) {
               transaction.begin();
+              testBeginTransaction = true;
           }
 
           // Merge each SoldItem
@@ -175,6 +176,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
           this.em.persist(sale);
 
           transaction.commit();
+          if (testBeginTransaction){testCommitTransaction = true;}
       } catch (Exception e) {
           if (transaction.isActive()) {
               transaction.rollback();
@@ -284,11 +286,11 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public boolean getTestBeginTransaction() {
-        return this.testBeginTransaction;
+        return testBeginTransaction;
     }
 
     @Override
     public boolean getTestCommitTransaction() {
-        return this.testCommitTransaction;
+        return testCommitTransaction;
     }
 }

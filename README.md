@@ -5,7 +5,7 @@
 
 ## Homework 1:
 Submission link: [Requirements engineering](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/wiki/HW-1%20Requirements%20engineering). <br>
-Interview recording link : https://tartuulikool-my.sharepoint.com/:u:/g/personal/degouve_ut_ee/EQzucp1CaFRAi9PJR6d4_tMBrgyHcBXIruw2Wn_2nV-sRg?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0RpcmVjdCJ9fQ&e=iCryyW
+Interview recording [link](https://tartuulikool-my.sharepoint.com/:u:/g/personal/degouve_ut_ee/EQzucp1CaFRAi9PJR6d4_tMBrgyHcBXIruw2Wn_2nV-sRg?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0RpcmVjdCJ9fQ&e=iCryyW).
 
 ## Homework 2:
 Submission link: [Requirements Specification, Modeling, Planning](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/wiki/HW-2%20Requirements%20Specification,%20Modeling,%20Planning).
@@ -21,7 +21,7 @@ Submission link for task 1: [Debugging](https://bitbucket.org/software-engineeri
 Submission link: [Development, Phase II](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/commits/tag/homework-5). <br>
 
 ## Homework 6:
-<Links to the solution>
+Submission link: [Automatic Unit Tests, Refactoring](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/commits/tag/homework-6), [Functional Test Planning](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/wiki/HW-6%20Functional%20Test%20Planning) <br>
 
 ## Homework 7:
 <Links to the solution>

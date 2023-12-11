@@ -122,38 +122,29 @@ public class ShoppingCartTest {
 
     @Test
     public void testSubmittingCurrentPurchaseBeginsAndCommitsTransaction() {
-        SalesSystemDAO daoTest = new HibernateSalesSystemDAO();
-        ShoppingCart shoppingCartTest = new ShoppingCart(daoTest);
-
-        StockItem newStockItem = new StockItem(5L, "test", "test", 10.0, 20);
-        daoTest.saveStockItem(newStockItem);
-
         SoldItem newItem = new SoldItem(
-                daoTest.findStockItem(5L),
+                dao.findStockItem(1L),
                 5
         );
-        shoppingCartTest.addItem(newItem);
-        shoppingCartTest.submitCurrentPurchase();
+        shoppingCart.addItem(newItem);
+        shoppingCart.submitCurrentPurchase();
 
-        assertTrue(daoTest.getTestBeginTransaction());
-        assertTrue(daoTest.getTestCommitTransaction());
+        assertTrue(dao.getTestBeginTransaction());
+        assertTrue(dao.getTestCommitTransaction());
     }
 
 
     @Test
     public void testSubmittingCurrentOrderCreatesSaleItem() {
-        SalesSystemDAO daoTest = new HibernateSalesSystemDAO();
-        ShoppingCart shoppingCartTest = new ShoppingCart(daoTest);
+        SoldItem soldItem = new SoldItem(
+                dao.findStockItem(1L),
+                3
+        );
+        shoppingCart.addItem(soldItem);
 
-        StockItem stockItem = new StockItem(1L, "test", "test", 100.0, 32);
-        daoTest.saveStockItem(stockItem);
+        shoppingCart.submitCurrentPurchase();
 
-        SoldItem soldItem = new SoldItem(stockItem, 5);
-        shoppingCartTest.addItem(soldItem);
-
-        shoppingCartTest.submitCurrentPurchase();
-
-        List<Sale> sales = daoTest.findSales();
+        List<Sale> sales = dao.findSales();
         System.out.println(sales.size());
 
         // Check that a sale was created
@@ -168,21 +159,18 @@ public class ShoppingCartTest {
 
         SoldItem soldItemInSale = soldItemsInSale.get(0);
 
-        assertEquals(stockItem.getId(), soldItemInSale.getStockItem().getId());
+        assertEquals(soldItem.getId(), soldItemInSale.getStockItem().getId());
         assertEquals(soldItem.getQuantity(), soldItemInSale.getQuantity());
     }
 
     @Test
     public void testSubmittingCurrentOrderSavesCorrectTime() {
-        SalesSystemDAO daoTest = new HibernateSalesSystemDAO();
-        ShoppingCart shoppingCartTest = new ShoppingCart(daoTest);
-
         SoldItem newItem = new SoldItem(dao.findStockItem(1L), 2);
-        shoppingCartTest.addItem(newItem);
+        shoppingCart.addItem(newItem);
 
-        shoppingCartTest.submitCurrentPurchase();
+        shoppingCart.submitCurrentPurchase();
 
-        List<Sale> sales = daoTest.findSales();
+        List<Sale> sales = dao.findSales();
         Sale createdSale = sales.get(sales.size()-1);
 
         // Check that the sale time is set correctly
@@ -191,46 +179,34 @@ public class ShoppingCartTest {
         // Check that the sale time is close to the current time
         LocalTime currentTime = LocalTime.now();
         Duration timeDifference = Duration.between(currentTime, createdSale.getSaleTime());
-        assertTrue(timeDifference.getSeconds() < 10);
+        assertTrue(timeDifference.getSeconds() < 1);
     }
 
     @Test
     public void testCancellingOrder() {
-        SalesSystemDAO daoTest = new HibernateSalesSystemDAO();
-        ShoppingCart shoppingCartTest = new ShoppingCart(daoTest);
-
-        List<Sale> previousSales = daoTest.findSales();
-
         // Create the first order
-        StockItem item1 = new StockItem(1L, "Item 1", "test", 10.0, 10);
-        StockItem item2 = new StockItem(2L, "Item 2", "test", 15.0, 15);
+        SoldItem soldItem1 = new SoldItem(dao.findStockItem(1L), 2);
+        SoldItem soldItem2 = new SoldItem(dao.findStockItem(2L), 3);
 
-        // Add items to the shopping cart
-        SoldItem soldItem1 = new SoldItem(item1, 2);
-        SoldItem soldItem2 = new SoldItem(item2, 3);
-
-        shoppingCartTest.addItem(soldItem1);
-        shoppingCartTest.addItem(soldItem2);
-        shoppingCartTest.cancelCurrentPurchase();
+        shoppingCart.addItem(soldItem1);
+        shoppingCart.addItem(soldItem2);
 
         // Cancel the first purchase
-        shoppingCartTest.cancelCurrentPurchase();
+        shoppingCart.cancelCurrentPurchase();
 
         // Create and submit a new order with different items
-        StockItem newItem1 = new StockItem(3L, "New Item 1", "test", 20.0, 5);
-        StockItem newItem2 = new StockItem(4L, "New Item 2", "test", 25.0, 8);
+        SoldItem newSoldItem1 = new SoldItem(dao.findStockItem(3L), 1);
+        SoldItem newSoldItem2 = new SoldItem(dao.findStockItem(4L), 2);
 
-        // Add new items to the shopping cart and submit the new order
-        SoldItem newSoldItem1 = new SoldItem(newItem1, 1);
-        SoldItem newSoldItem2 = new SoldItem(newItem2, 2);
-
-        shoppingCartTest.addItem(newSoldItem1);
-        shoppingCartTest.addItem(newSoldItem2);
-        shoppingCartTest.submitCurrentPurchase();
+        shoppingCart.addItem(newSoldItem1);
+        shoppingCart.addItem(newSoldItem2);
+        shoppingCart.submitCurrentPurchase();
 
         // Check that just the new order is saved
-        List<Sale> sales = daoTest.findSales();
-        assertEquals(previousSales.size()+1, sales.size());
+        List<Sale> sales = dao.findSales();
+        System.out.println(sales.size());
+
+        assertEquals(1, sales.size());
 
         // Retrieve the items from the new order and ensure they are correct
         Sale newOrder = sales.get(sales.size()-1);
@@ -238,31 +214,25 @@ public class ShoppingCartTest {
 
         // Ensure that the items from the second order are present in the items of the new order
         assertEquals(2, newOrderItems.size());
-        assertEquals(newItem1.getId(), newOrderItems.get(0).getStockItem().getId());
-        assertEquals(newItem2.getId(), newOrderItems.get(1).getStockItem().getId());
-
-
+        assertEquals(newSoldItem1.getId(), newOrderItems.get(0).getStockItem().getId());
+        assertEquals(newSoldItem2.getId(), newOrderItems.get(1).getStockItem().getId());
     }
 
     @Test
     public void testCancellingOrderQuantitiesUnchanged() {
-        SalesSystemDAO daoTest = new HibernateSalesSystemDAO();
-        ShoppingCart shoppingCartTest = new ShoppingCart(daoTest);
+        SoldItem soldItem1 = new SoldItem(dao.findStockItem(1L), 2);
+        int expectedQuantity1 = dao.findStockItem(1L).getQuantity();
+        SoldItem soldItem2 = new SoldItem(dao.findStockItem(2L), 3);
+        int expectedQuantity2 = dao.findStockItem(2L).getQuantity();
 
-        StockItem item1 = new StockItem(1L, "Item 1", "test", 10.0, 10);
-        StockItem item2 = new StockItem(2L, "Item 2", "test", 15.0, 15);
+        shoppingCart.addItem(soldItem1);
+        shoppingCart.addItem(soldItem2);
 
-        SoldItem soldItem1 = new SoldItem(item1, 2);
-        SoldItem soldItem2 = new SoldItem(item2, 3);
-
-        shoppingCartTest.addItem(soldItem1);
-        shoppingCartTest.addItem(soldItem2);
-
-        shoppingCartTest.cancelCurrentPurchase();
+        shoppingCart.cancelCurrentPurchase();
 
         // Check that the quantities of the related StockItems are unchanged
-        assertEquals(10, item1.getQuantity());
-        assertEquals(15, item2.getQuantity());
+        assertEquals(expectedQuantity1, dao.findStockItem(1L).getQuantity());
+        assertEquals(expectedQuantity2, dao.findStockItem(2L).getQuantity());
     }
 
 

@@ -38,7 +38,8 @@ public class TeamController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Properties properties = new Properties();
 
-        try (InputStream input = getClass().getResourceAsStream("/app/src/main/resources/application.properties")) {            properties.load(input);
+        try (InputStream input = getClass().getResourceAsStream("/application.properties")) {
+            properties.load(input);
             name = properties.getProperty("team.name");
             teamMail = properties.getProperty("team.contact");
             membersName = properties.getProperty("team.members");

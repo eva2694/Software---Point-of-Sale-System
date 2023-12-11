@@ -69,6 +69,7 @@ public class ShoppingCart {
 
         try {
             if(!items.isEmpty()) {
+                dao.beginTransaction();
                 // Decrease the stock quantity for each item in the shopping cart
                 for (SoldItem soldItem : items) {
                     StockItem stockItem = soldItem.getStockItem();
@@ -84,6 +85,7 @@ public class ShoppingCart {
                 }
 
                 dao.saveSoldItemsAndCreateSale(items);
+                dao.commitTransaction();
                 items.clear();
                 log.debug("Shopping cart cleared after submitting the purchase.");
             } else {

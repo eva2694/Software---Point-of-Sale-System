@@ -77,48 +77,15 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     @Override
     public void saveStockItem(StockItem stockItem) {
         try {
-            this.em.getTransaction().begin();
-
             if (stockItem.getId() == null) {
                 this.em.persist(stockItem);
             } else {
                 this.em.merge(stockItem);
             }
-
-            this.em.getTransaction().commit();
         } catch (Exception e) {
-            if (this.em.getTransaction().isActive()) {
-                this.em.getTransaction().rollback();
-            }
             handleException(e);
         }
     }
-
-   /* @Override
-    public void saveSoldItem(SoldItem soldItem) {
-        EntityTransaction transaction = this.em.getTransaction();
-
-        try {
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
-
-            if (soldItem.getId() == null) {
-                this.em.persist(soldItem);
-            } else {
-                this.em.merge(soldItem);
-            }
-
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            handleException(e);
-        }
-    }
-*/
-
 
     @Override
     public void removeStockItem(StockItem stockItem) {
@@ -130,41 +97,9 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         }
     }
 
-
-  /*  @Override
-    public void saveSale(Sale sale) {
-        EntityTransaction transaction = this.em.getTransaction();
-
-        try {
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
-
-            if (sale.getId() == null) {
-                this.em.persist(sale);
-            } else {
-                this.em.merge(sale);
-            }
-
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            handleException(e);
-        }
-    }
-*/
   @Override
   public void saveSoldItemsAndCreateSale(List<SoldItem> soldItems) {
-      EntityTransaction transaction = this.em.getTransaction();
-
       try {
-          if (!transaction.isActive()) {
-              transaction.begin();
-              testBeginTransaction = true;
-          }
-
           // Merge each SoldItem
           List<SoldItem> mergedSoldItems = new ArrayList<>();
           for (SoldItem soldItem : soldItems) {
@@ -174,13 +109,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
           // Create a new Sale based on the merged sold items
           Sale sale = new Sale(mergedSoldItems);
           this.em.persist(sale);
-
-          transaction.commit();
-          if (testBeginTransaction){testCommitTransaction = true;}
       } catch (Exception e) {
-          if (transaction.isActive()) {
-              transaction.rollback();
-          }
           handleException(e);
       }
   }
@@ -221,7 +150,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     @Override
     public void rollbackTransaction() {
         try {
-            if (this.testBeginTransaction && this.currentTransaction != null) {
+            if (this.currentTransaction != null) {
                 if (this.currentTransaction.isActive()) {
                     this.currentTransaction.rollback();
                     this.testCommitTransaction = false;
@@ -241,7 +170,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     @Override
     public void commitTransaction() {
         try {
-            if (this.testBeginTransaction && this.currentTransaction != null) {
+            if (this.currentTransaction != null) {
                 if (this.currentTransaction.isActive()) {
                     this.currentTransaction.commit();
                     this.testCommitTransaction = true;

@@ -1,6 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui;
 
 import ee.ut.math.tvt.salessystem.SalesSystemException;
+import ee.ut.math.tvt.salessystem.dao.HibernateSalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
@@ -24,14 +25,15 @@ public class ConsoleUI {
     private final SalesSystemDAO dao;
     private final ShoppingCart cart;
 
-    public ConsoleUI(SalesSystemDAO dao) {
-        this.dao = dao;
+    public ConsoleUI() {
+        //this.dao = dao;
+        this.dao = new HibernateSalesSystemDAO();
         cart = new ShoppingCart(dao);
     }
 
+
     public static void main(String[] args) throws Exception {
-        SalesSystemDAO dao = new InMemorySalesSystemDAO();
-        ConsoleUI console = new ConsoleUI(dao);
+        ConsoleUI console = new ConsoleUI();
         console.run();
     }
 

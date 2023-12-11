@@ -25,7 +25,7 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version:'4.+'
 }
 
-mainClassName = 'ee.ut.math.tvt.salessystem.ui.SalesSystemUI'
+mainClassName = 'ee.ut.math.tvt.salessystem.ui.Launcher'
 
 jar {
 	doFirst {

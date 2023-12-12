@@ -16,7 +16,7 @@ import java.util.List;
 public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private static Long id = 0L;
+    private Long id;
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SoldItem> items = new ArrayList<>();
     @Column(name = "sale_time")
@@ -25,6 +25,7 @@ public class Sale {
     private LocalDate saleDate;
     @Column(name = "sale_total")
     private float saleTotal;
+    private static Long idCounter = 0L;
 
     private static final Logger log = LogManager.getLogger(ShoppingCart.class);
 
@@ -33,10 +34,14 @@ public class Sale {
         for(SoldItem item : items) {
             item.setSale(this);
         }
+        this.id = idCounter++;
         LocalTime time = LocalTime.now();
         saleTime = LocalTime.of(time.getHour(), time.getMinute(), time.getSecond());
         saleDate = LocalDate.now();
         saleTotal = getSaleTotal(items);
+    }
+
+    public Sale() {
     }
 
     private float getSaleTotal(List<SoldItem> items) {

@@ -61,6 +61,6 @@ public interface SalesSystemDAO {
     public boolean getTestCommitTransaction();
 
     //public void saveSale(Sale sale);
-    public Sale findSale(long id);
+    Sale findSale(long id);
 
 }

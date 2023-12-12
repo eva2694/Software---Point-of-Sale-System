@@ -119,5 +119,5 @@ public class HistoryController implements Initializable {
     private void displaySaleDetails(Sale sale){
         historyDetailsTableView.setItems(FXCollections.observableList(dao.findSale(sale.getId()).getItems()));
         historyDetailsTableView.refresh();
-    }
+        }
 }

@@ -69,21 +69,27 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     public void updateQuantity(Long id, int itemQuantity) {
         StockItem stockItem = findStockItem(id);
         if (stockItem != null) {
-            int newQuantity = stockItem.getQuantity() + itemQuantity;
-            stockItem.setQuantity(newQuantity);
+            stockItem.setQuantity(itemQuantity);
         }
     }
 
     @Override
     public void saveStockItem(StockItem stockItem) {
+        if (findStockItem( stockItem.getId()) == null) {
             stockItemList.add(stockItem);
+        } else {
+            updateQuantity(stockItem.getId(), stockItem.getQuantity());
         }
+    }
 
     @Override
     public void saveSoldItemsAndCreateSale(List<SoldItem> soldItems) {
+        List<SoldItem> shoppingCart = new ArrayList<>();
         for (SoldItem item : soldItems) {
-            soldItemList.add(item);
+            shoppingCart.add(item.copy());
         }
+        Sale sale = new Sale(shoppingCart);
+        salesList.add(sale);
     }
 
     @Override
@@ -112,13 +118,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         if(testBeginTransaction) {
             testCommitTransaction = true;
         }
-        List<SoldItem> shoppingCart = new ArrayList<>();
-        for (SoldItem item : soldItemList) {
-            shoppingCart.add(item.copy());
-        }
-        Sale sale = new Sale(shoppingCart);
-        salesList.add(sale);
-        soldItemList.clear();
     }
     @Override
     public boolean getTestBeginTransaction() {

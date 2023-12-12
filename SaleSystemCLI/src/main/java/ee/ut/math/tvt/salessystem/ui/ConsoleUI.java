@@ -103,17 +103,30 @@ public class ConsoleUI {
 
     private void addToCart(String idx, String nr) {
         log.info("Adding item to the cart");
-        try {
-            Long id = Long.parseLong(idx);
-            int amount = Integer.parseInt(nr);
-            StockItem item = dao.findStockItem(id);
-            if (item != null) {
-                cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity())));
-            } else {
-                log.error("no stock item with id " + id);
+        Long id = Long.parseLong(idx);
+        StockItem item = dao.findStockItem(id);
+
+        if (item != null) {
+            try {
+                int amount = Integer.parseInt(nr);
+                if (amount < 1) {
+                    String title = "Invalid product quantity";
+                    String content = "Quantity should be at least 1.";
+                    throw new SalesSystemException(title + ": " + content);
+                }
+                if (item.getQuantity() < amount) {
+                    log.info("We don't have enough product. Available quantity: " + item.getQuantity());
+                    throw new SalesSystemException("We don't have enough product. Available quantity: " + item.getQuantity());
+                }
+
+                log.info("Adding item: " + item.getName() + " (ID: " + item.getId() + ") - Quantity: " + amount);
+                cart.addItem(new SoldItem(item, amount));
+
+            } catch (NumberFormatException | SalesSystemException e) {
+                log.error("Error adding item: " + e.getMessage());
             }
-        } catch (SalesSystemException | NoSuchElementException e) {
-            log.error(e.getMessage(), e);
+        } else {
+        log.error("no stock item with id " + id);
         }
     }
 

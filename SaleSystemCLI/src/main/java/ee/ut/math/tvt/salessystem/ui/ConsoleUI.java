@@ -26,8 +26,8 @@ public class ConsoleUI {
     private final ShoppingCart cart;
 
     public ConsoleUI() {
-        //this.dao = dao;
-        this.dao = new HibernateSalesSystemDAO();
+        this.dao = new InMemorySalesSystemDAO();
+        //this.dao = new HibernateSalesSystemDAO();
         cart = new ShoppingCart(dao);
     }
 
@@ -97,6 +97,7 @@ public class ConsoleUI {
         System.out.println("p\t\tPurchase the shopping cart");
         System.out.println("r\t\tReset the shopping cart");
         System.out.println("t\t\tShow team information");
+        System.out.println("q\t\tExit the application");
         System.out.println("-------------------------");
     }
 

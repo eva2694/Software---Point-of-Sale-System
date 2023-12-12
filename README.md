@@ -24,6 +24,6 @@ Submission link: [Development, Phase II](https://bitbucket.org/software-engineer
 Submission link: [Automatic Unit Tests, Refactoring](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/commits/tag/homework-6), [Functional Test Planning](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/wiki/HW-6%20Functional%20Test%20Planning) <br>
 
 ## Homework 7:
-<Links to the solution>
+Submission link: [Functional and Non-Functional System Testinn](https://bitbucket.org/software-engineering-kaktus/lg10-kaktus/wiki/HW-7%20Functional%20and%20Non-Functional%20System%20Testing).
 
 We encourage you to use [markdown syntax](https://confluence.atlassian.com/bitbucketserver/markdown-syntax-guide-776639995.html)

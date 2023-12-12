@@ -16,7 +16,7 @@ import java.util.List;
 public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private static Long id = 0L;
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SoldItem> items = new ArrayList<>();
     @Column(name = "sale_time")

@@ -127,6 +127,10 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public Sale findSale(long id) {
+        for (Sale item : salesList) {
+            if (item.getId() == id)
+                return item;
+        }
         return null;
     }
 }

@@ -39,10 +39,6 @@ public class Sale {
         saleTotal = getSaleTotal(items);
     }
 
-    public Sale() {
-
-    }
-
     private float getSaleTotal(List<SoldItem> items) {
         float total = 0;
         for(SoldItem item : items){
@@ -70,11 +66,5 @@ public class Sale {
     public Long getId() {
         return id;
     }
-
-    /*public void newSale(ShoppingCart shoppingCart){
-        this.shoppingCart = shoppingCart;
-        this.saleDate = LocalDate.now();
-        this.saleTime = LocalTime.now();
-    }*/
 
 }

@@ -67,7 +67,11 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void updateQuantity(Long id, int itemQuantity) {
-
+        StockItem stockItem = findStockItem(id);
+        if (stockItem != null) {
+            int newQuantity = stockItem.getQuantity() + itemQuantity;
+            stockItem.setQuantity(newQuantity);
+        }
     }
 
     @Override
@@ -127,6 +131,10 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public Sale findSale(long id) {
+        for (Sale item : salesList) {
+            if (item.getId() == id)
+                return item;
+        }
         return null;
     }
 }

@@ -104,7 +104,7 @@ public class StockController implements Initializable {
             else {
                 try {
                     // update quantity of stockItem
-                    dao.updateQuantity(barCode, dao.findStockItem(barCode).getQuantity() + amount);
+                    dao.updateQuantity(barCode, amount);
                     log.info("Item quantity updated in the warehouse: " + name + " (ID: " + barCode + ") - New Quantity: " + dao.findStockItem(barCode).getQuantity());
 
                 } catch (Exception e) {

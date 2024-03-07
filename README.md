@@ -1,4 +1,4 @@
-# University of Tartu, Course Software engineering
+# University of Tartu, Course Software Engineering
 
 # Team Kaktus:
 1. Jonathan Degouve
